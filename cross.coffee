@@ -1,4 +1,14 @@
-# Type here!
+################### Matrix Functions ####################
+
+makeSqrMat = (n,value) ->
+   n--
+   ret = []
+   for i in [0..n]
+      m = []
+      ret.push m
+      for j in [0..n]
+         m[j]=value
+   ret
 
 alertMat = (mat) ->
    ret = ""
@@ -6,28 +16,28 @@ alertMat = (mat) ->
       ret += row + "\n"
    alert ret
 
+################### Fly Constraints ######################
+
 lethality = [
     ["A","B"]
-    ["D","E"]
+    ["a","a"]
     ["O","P"]
-    ["Q","R"]
+    ["e","E"]
 ]
 sterility = [
     ["A","B"]
-    ["D","E"]
+    ["B","b"]
     ["O","P"]
-    ["Q","R"]
+    ["Z","Z"]
 ]
 compatibility = [
-    ["A","B"]
+    ["A","C"]
     ["D","E"]
     ["O","P"]
-    ["Q","R"]
+    ["e","B"]
 ]
 
-male = "a,b,c/d;e;f"
-female = "A,B,C/D;E;F"
-child = "A;Y;Z"
+################### Gene Functions #####################3
 
 parse = (s) ->
    return s.split(",") #genes
@@ -38,15 +48,6 @@ genePool = (flies) ->
       for gene in parse(fly)
          if ret.indexOf(gene) == -1
             ret.push gene
-   ret
-
-makeSqrMat = (n,value) ->
-   ret = []
-   for i in [0..n]
-      m = []
-      ret.push m
-      for j in [0..n]
-         m[j]=value
    ret
 
 makeLookupMatrix = (pool,l,s,c) ->
@@ -63,12 +64,19 @@ makeLookupMatrix = (pool,l,s,c) ->
       for pair in mapping
          i = geneIdx[pair[0]]
          j = geneIdx[pair[1]]
-         if i && j
+         if i? && j?
              ret[i][j] = ch
              ret[j][i] = ch
    ret
 
+###################### Test Code ###############################
+
+male = "a,b,c,d,e,f"
+female = "A,B,C,D,E,F"
+child = "A,Y,Z"
+
 pool = genePool([male,female,child]) 
+alert pool
 mat = makeLookupMatrix(pool,lethality,sterility,compatibility)
 alertMat mat
 #alert pool.join("~")
