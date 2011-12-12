@@ -59,14 +59,13 @@ makeLookupMatrix = (pool,l,s,c) ->
    ret = makeSqrMat(pool.length,"?")
    matChars = [[l,"L"],[s,"S"],[c,"C"]]
    for tmp in matChars
-      mapping = tmp[0]
-      ch = tmp[1]
+      mapping = tmp[0] ; ch = tmp[1]
       for pair in mapping
          i = geneIdx[pair[0]]
          j = geneIdx[pair[1]]
          if i? && j?
-             ret[i][j] = ch
-             ret[j][i] = ch
+             ret[i][j] = ret[j][i] = ch
+
    ret
 
 ###################### Test Code ###############################
