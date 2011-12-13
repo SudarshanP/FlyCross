@@ -1,0 +1,51 @@
+<html>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script type='text/javascript'>
+handler = function(data) {
+    $("<div>").text(data).appendTo($("#response"));
+    $("<hr>").appendTo($("#response"));
+}
+window.server = {};
+server.get = function(path,handler) {
+    $.ajax({
+      type: 'GET',
+      url: path,
+      contentType: "application/json",
+      processData: false,
+      success: handler,
+      dataType: "text"
+    });
+}
+server.post = function(path,data,handler) {
+    $.ajax({
+      type: 'POST',
+      url: path,
+      contentType: "application/json",
+      processData: false,
+      "data": data,
+      success: handler,
+      dataType: "text"
+    });
+}
+function Get() {
+   url = $('#gurl').val();
+   server.get(url,handler);
+}
+function Post() {
+   url = $('#purl').val();
+   d = $('#data').val();
+   server.get(url,d,handler);
+}
+</script>
+<body>
+Get URL: <input type='text' id='gurl' value='/html/master.json'> <input type='submit' value='Get' onClick='Get(); return false' /><br>
+<hr>
+Post URL: <input type='text' id='purl' value='/html/master.json'> <br>
+<textarea id='data' rows='15' cols="100"/>[1,2,3]</textarea><br>
+<input type='submit' value='Post' onClick='Post(); return false' />
+<hr>
+<B>Response</B> <input type='submit' value='Clear' onClick='$("#response").html(""); return false' />
+<hr>
+<div id="response"/>
+</body>
+</html>
