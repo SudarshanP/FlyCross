@@ -37,7 +37,9 @@ compatibility = [
     ["e","B"]
 ]
 ################### Parser #############################
-isAlNum = (s) -> true
+isValidChar = (s) -> true
+
+parseErr = (msg,pos) -> {"error":msg,"pos":pos}
 
 parse = (s) ->
    ret = []
@@ -52,24 +54,26 @@ parse = (s) ->
       err += ch
       switch state
          when 0
-            if ch == '('
-               gene += ch ; openBrackets++
-               state = 1
-            else if ch == ')'
-               return [],err,"Closed bracket before opening"                   
-            else if isAlNum(ch) || ch == "+" || ch == "-" 
-               gene += ch
-            else if ch == ','
-               chromosome.push(gene)  
-               gene = "" 
-            else if ch == '/'
-               chromosome.push(gene) ; pair.push(chromosome)
-               gene = "" ; chromosome = []
-            else if ch == ";"
-               chromosome.push(gene) ; pair.push(chromosome) ; ret.push(pair)
-               gene = "" ; chromosome = [] ; pair = []               
-            else
-               return [],err,"Closed bracket before opening"
+            switch ch
+               when '('
+                  gene += ch ; openBrackets++
+                  state = 1
+               when ')'
+                  return parseErr("Closed bracket before opening",err)                   
+               when ','
+                  chromosome.push(gene)  
+                  gene = "" 
+               when '/'
+                  chromosome.push(gene) ; pair.push(chromosome)
+                  gene = "" ; chromosome = []
+               when ";"
+                  chromosome.push(gene) ; pair.push(chromosome) ; ret.push(pair)
+                  gene = "" ; chromosome = [] ; pair = []               
+               else
+                  if isValidChar(ch)
+                     gene += ch
+                  else
+                     return parseErr("Unexpected Character",err)
          when 1
             gene += ch
             if ch == ")"
@@ -79,9 +83,7 @@ parse = (s) ->
    chromosome.push(gene)
    pair.push(chromosome)
    ret.push(pair)               
-   return ret             
-   
-
+   return ret 
 ################### Gene Functions #####################3
 
 genePool = (flies) ->
