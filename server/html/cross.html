@@ -9,37 +9,45 @@
 <script type="text/coffeescript" src="parser.coffee"></script>
 <script id="entry-template" type="text/x-handlebars-template">
 <div>
-     <hr>
-     {{#each fly}}<ul>
-        {{#each this}}<li>
+  {{#if error}}
+     <B>{{error}}</B><br>{{frag}}
+  {{else}}
+     <table border="2">
+     {{#each fly}}<tr>
+        {{#each this}}<td>
             {{#each this}}<span style="padding:10px;color:green;">
                 {{this}}
             </span>{{/each}}
-        </li>{{/each}}
-     </ul><hr>{{/each}}
+        </td>{{/each}}
+     </tr>{{/each}}
+     </table>
+   {{/if}}
 </div>
 </script>
 <script type="text/coffeescript">
 $ ->
    source   = $("#entry-template").html()
-   template = Handlebars.compile(source)
+   window.template = Handlebars.compile(source)
    context = {"fly": [[["A","a"],["B","b"],["C","c"]],[["D","d"],["E","e"]]]}
    #alert template(context)
-   $("#out").html(template(context))
+   questionMarks = template({"fly": [[["?"],["?"]],[["?"],["?"]],[["?"],["?"]]]})
+   #alert(questionMarks)
+   $("#oDad").html(questionMarks);$("#oMom").html(questionMarks);$("#oKid").html(questionMarks)
 window.parseDad = -> 
-   tmp = JSON.stringify(parseFly($('#dad').val(),"M"))
-   $('#oDad').text(tmp)
+   m = parseFly($('#dad').val(),"M")
+   #alert(JSON.stringify(m))
+   $('#oDad').html(template(m))
 window.parseMom = -> 
-   tmp = JSON.stringify(parseFly($('#mom').val(),"F"))
-   $('#oMom').text(tmp)
+   f = parseFly($('#mom').val(),"F")
+   $('#oMom').html(template(f))
 window.parseKid = -> 
-   tmp = JSON.stringify(parseFly($('#kid').val()))
-   $('#oKid').text(tmp)
+   k = parseFly($('#kid').val())
+   $('#oKid').html(template(k))
 </script>
 
 </head>
 <body>
-Male: <input type='text' id='dad' value="A,B,(((C)})/D,F;G,Y,H/I,J;+/+"> <input type='submit' value='Ok' onClick='parseDad(); return false' /><br>
+Male: <input type='text' id='dad' value="A,B,(((C)})/D,Y,F;G,Y,H/I,J;+/+"> <input type='submit' value='Ok' onClick='parseDad(); return false' /><br>
 <div id='oDad'></div>
 <hr>
 Female: <input type='text' id='mom' value='P,B,C/D,E,F;G,H/I,J;+/+'> <input type='submit' value='Ok' onClick='parseMom(); return false' /><br>
