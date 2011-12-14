@@ -25,7 +25,7 @@ sex = (fly) ->
              return "M"
    return "F"
 
-parseFly = (f,gender=null) ->
+window.parseFly = (f,gender=null) ->
    ret = []
    gene = ""
    chromosome = []
@@ -74,24 +74,14 @@ parseFly = (f,gender=null) ->
    ret = checkStructure(ret)
    return(ret) if ret.error?               
    return parseErr("Wrong Gender, Check Y",f) if gender? && sex(ret)!=gender
-   return ret 
+   return {"fly":ret} 
 
-genePool = (flies) ->
-   ret = []
-   for fly in flies
-      for pair in fly
-         for chromosome in pair
-            for gene in chromosome
-               if ret.indexOf(gene) == -1 && gene != "+"
-                  ret.push gene
-   ret
+#dad = parseFly("A,B,(((C)})/D,F;G,H/I,J;+/+","M")
+#mom = parseFly("P,B,C/D,E,F;G,H/I,J;+/+","F")
+#kid = parseFly("A,B,C/D,E,F;G,H/I,Q;+/+")
 
-dad = parseFly("A,B,(((C)})/D,F;G,H/I,J;+/+","M")
-mom = parseFly("P,B,C/D,E,F;G,H/I,J;+/+","F")
-kid = parseFly("A,B,C/D,E,F;G,H/I,Q;+/+")
-
-for fly in [dad,mom,kid]
-   if fly.error?
-      alert fly.error+"\n"+fly.frag
-   else
-      alert JSON.stringify(fly)
+#for fly in [dad,mom,kid]
+#   if fly.error?
+#      alert fly.error+"\n"+fly.frag
+#   else
+#      alert JSON.stringify(fly)

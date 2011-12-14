@@ -37,13 +37,14 @@ compatibility = [
     ["e","B"]
 ]
 ################### Gene Functions #####################3
-
 genePool = (flies) ->
    ret = []
    for fly in flies
-      for gene in parse(fly)
-         if ret.indexOf(gene) == -1
-            ret.push gene
+      for pair in fly
+         for chromosome in pair
+            for gene in chromosome
+               if ret.indexOf(gene) == -1 && gene != "+"
+                  ret.push gene
    ret
 
 makeLookupMatrix = (pool,l,s,c) ->
@@ -65,14 +66,14 @@ makeLookupMatrix = (pool,l,s,c) ->
 
 ###################### Test Code ###############################
 
-male = "a,b,c,d,e,f"
-female = "A,B,C,D,E,F"
-child = "A,Y,Z"
+#male = "a,b,c,d,e,f"
+#female = "A,B,C,D,E,F"
+#child = "A,Y,Z"
 
-pool = genePool([male,female,child]) 
+#pool = genePool([male,female,child]) 
 #alert pool
-mat = makeLookupMatrix(pool,lethality,sterility,compatibility)
+#mat = makeLookupMatrix(pool,lethality,sterility,compatibility)
 #alertMat mat
 #alert pool.join("~")
-for s of "Hello"
-   alert s
+#for s of "Hello"
+#   alert s

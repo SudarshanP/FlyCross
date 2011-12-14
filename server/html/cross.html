@@ -6,10 +6,11 @@
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 <script type="text/javascript" src="coffee-script.js"></script>
 <script type="text/javascript" src="handlebars.js"></script>
+<script type="text/coffeescript" src="parser.coffee"></script>
 <script id="entry-template" type="text/x-handlebars-template">
 <div>
      <hr>
-     {{#each chromosomes}}<ul>
+     {{#each fly}}<ul>
         {{#each this}}<li>
             {{#each this}}<span style="padding:10px;color:green;">
                 {{this}}
@@ -22,14 +23,31 @@
 $ ->
    source   = $("#entry-template").html()
    template = Handlebars.compile(source)
-   context = {"chromosomes": [[["A","a"],["B","b"],["C","c"]],[["D","d"],["E","e"]]]}
+   context = {"fly": [[["A","a"],["B","b"],["C","c"]],[["D","d"],["E","e"]]]}
    #alert template(context)
    $("#out").html(template(context))
+window.parseDad = -> 
+   tmp = JSON.stringify(parseFly($('#dad').val(),"M"))
+   $('#oDad').text(tmp)
+window.parseMom = -> 
+   tmp = JSON.stringify(parseFly($('#mom').val(),"F"))
+   $('#oMom').text(tmp)
+window.parseKid = -> 
+   tmp = JSON.stringify(parseFly($('#kid').val()))
+   $('#oKid').text(tmp)
 </script>
-<!--script type="text/coffeescript" src="cross.coffee"></script-->
+
 </head>
 <body>
-<p>This is my web page</p>
-<div id="out"/>
+Male: <input type='text' id='dad' value="A,B,(((C)})/D,F;G,Y,H/I,J;+/+"> <input type='submit' value='Ok' onClick='parseDad(); return false' /><br>
+<div id='oDad'></div>
+<hr>
+Female: <input type='text' id='mom' value='P,B,C/D,E,F;G,H/I,J;+/+'> <input type='submit' value='Ok' onClick='parseMom(); return false' /><br>
+<div id='oMom'></div>
+<hr>
+Progeny: <input type='text' id='kid' value='A,B,C/D,E,F;G,H/I,Q;+/+'> <input type='submit' value='Ok' onClick='parseKid(); return false' /><br>
+<hr>
+<div id="oKid"></div>
+<div id='out'></div>
 </body>
 </html>
