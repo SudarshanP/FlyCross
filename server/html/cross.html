@@ -1,13 +1,35 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 <head>
-	<meta http-equiv="content-type" content="text/html; charset=utf-8">
-	<title>Title Goes Here</title>
-    <script type="text/javascript" src="coffee-script.js">
-    </script>
-    <script type="text/coffeescript" src="cross.coffee"></script>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>Title Goes Here</title>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script type="text/javascript" src="coffee-script.js"></script>
+<script type="text/javascript" src="handlebars.js"></script>
+<script id="entry-template" type="text/x-handlebars-template">
+<div>
+     <hr>
+     {{#each chromosomes}}<ul>
+        {{#each this}}<li>
+            {{#each this}}<span style="padding:10px;color:green;">
+                {{this}}
+            </span>{{/each}}
+        </li>{{/each}}
+     </ul><hr>{{/each}}
+</div>
+</script>
+<script type="text/coffeescript">
+$ ->
+   source   = $("#entry-template").html()
+   template = Handlebars.compile(source)
+   context = {"chromosomes": [[["A","a"],["B","b"],["C","c"]],[["D","d"],["E","e"]]]}
+   #alert template(context)
+   $("#out").html(template(context))
+</script>
+<!--script type="text/coffeescript" src="cross.coffee"></script-->
 </head>
 <body>
 <p>This is my web page</p>
+<div id="out"/>
 </body>
 </html>

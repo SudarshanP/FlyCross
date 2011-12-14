@@ -36,54 +36,6 @@ compatibility = [
     ["O","P"]
     ["e","B"]
 ]
-################### Parser #############################
-isValidChar = (s) -> true
-
-parseErr = (msg,pos) -> {"error":msg,"pos":pos}
-
-parse = (s) ->
-   ret = []
-   gene = ""
-   chromosome = []
-   pair = []
-   s = s.replace(" ","")
-   state = 0
-   openBrackets = 0
-   err = "Error at : "
-   for ch in s
-      err += ch
-      switch state
-         when 0
-            switch ch
-               when '('
-                  gene += ch ; openBrackets++
-                  state = 1
-               when ')'
-                  return parseErr("Closed bracket before opening",err)                   
-               when ','
-                  chromosome.push(gene)  
-                  gene = "" 
-               when '/'
-                  chromosome.push(gene) ; pair.push(chromosome)
-                  gene = "" ; chromosome = []
-               when ";"
-                  chromosome.push(gene) ; pair.push(chromosome) ; ret.push(pair)
-                  gene = "" ; chromosome = [] ; pair = []               
-               else
-                  if isValidChar(ch)
-                     gene += ch
-                  else
-                     return parseErr("Unexpected Character",err)
-         when 1
-            gene += ch
-            if ch == ")"
-               openBrackets--
-               if openBrackets == 0
-                  state = 0
-   chromosome.push(gene)
-   pair.push(chromosome)
-   ret.push(pair)               
-   return ret 
 ################### Gene Functions #####################3
 
 genePool = (flies) ->
