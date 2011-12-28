@@ -40,7 +40,7 @@ class MainPage(webapp.RequestHandler):
 			<html>
 			  <body>
 			    <form action="/checkCross" method="post">
-				   <div><textarea name="jsonDataFromCS" rows="5" cols="100">"""+json.dumps(CSdata)+"""</textarea></div>
+				   <div><textarea name="data" rows="5" cols="100">"""+json.dumps(CSdata)+"""</textarea></div>
 				   </br>
 				   <div><input type="submit" value="Check cross"></div>
 			    </form>
@@ -49,7 +49,7 @@ class MainPage(webapp.RequestHandler):
 
 class CheckCrossReply(webapp.RequestHandler):
 	def post(self):
-		jsonDataFromCS=json.loads(cgi.escape(self.request.get('jsonDataFromCS')))
+		jsonDataFromCS=json.loads(cgi.escape(self.request.get('data')))
 		index=jsonDataFromCS['index']
 		compMatrix=jsonDataFromCS['compMatrix']
 		balancers=jsonDataFromCS['balancers']
@@ -61,9 +61,9 @@ class CheckCrossReply(webapp.RequestHandler):
 
 		punnettSqr=json.dumps(punnettDict(father,mother))
 
-		self.response.out.write('<html><body>You wrote:<pre>')
+		#self.response.out.write('<html><body>You wrote:<pre>')
 		self.response.out.write(punnettSqr)
-		self.response.out.write('</pre></body></html>')
+		#self.response.out.write('</pre></body></html>')
 
 application = webapp.WSGIApplication(
                                      [('/', MainPage),
