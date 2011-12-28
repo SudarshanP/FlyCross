@@ -7,6 +7,38 @@
 <script type="text/javascript" src="coffee-script.js"></script>
 <script type="text/javascript" src="handlebars.js"></script>
 <script type="text/coffeescript" src="parser.coffee"></script>
+<script type='text/javascript'>
+handler = function(data) {
+    $("#response").text(data)
+}
+window.server = {};
+server.get = function(path,handler) {
+    $.ajax({
+      type: 'GET',
+      url: path,
+      contentType: "application/json",
+      processData: false,
+      success: handler,
+      dataType: "text"
+    });
+}
+server.post = function(path,data,handler) {
+    $.ajax({
+      type: 'POST',
+      url: path,
+      contentType: "application/json",
+      processData: false,
+      "data": data,
+      success: handler,
+      dataType: "text"
+    });
+}
+function Post() {
+   url = $('#purl').val();
+   d = $('#data').val();
+   server.get(url,d,handler);
+}
+</script>
 <script id="entry-template" type="text/x-handlebars-template">
 <div>
   {{#if error}}
@@ -43,6 +75,17 @@ window.parseMom = ->
 window.parseKid = -> 
    k = parseFly($('#kid').val())
    $('#oKid').html(template(k))
+window.makePunnett = ->
+   alert("Hi")
+   d = {}
+   d['index']
+   d['compMatrix'] = []
+   d['balancers']
+   d['markers']
+   d['father'] = $("#dad").val()
+   d['mother'] = $("#mother").val()
+   d['child'] = $("#child").val()
+   server.post("/checkCross",d,handler)
 </script>
 
 </head>
@@ -56,6 +99,9 @@ Female: <input type='text' id='mom' value='P,B,C/D,E,F;G,H/I,J;+/+'> <input type
 Progeny: <input type='text' id='kid' value='A,B,C/D,E,F;G,H/I,Q;+/+'> <input type='submit' value='Ok' onClick='parseKid(); return false' /><br>
 <hr>
 <div id="oKid"></div>
-<div id='out'></div>
+<hr>
+<input type='submit' value='Make Punnett Square' onClick='parseDad();parseMom();parseKid();makePunnett();return false' />
+<hr>
+<div id='response'></div>
 </body>
 </html>
