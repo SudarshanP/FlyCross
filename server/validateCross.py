@@ -13,7 +13,7 @@ class MainPage(webapp.RequestHandler):
 			<html>
 			  <body>
 			    <form action="/checkCross" method="post">
-				   <div><textarea name="data" rows="5" cols="100">"""+json.dumps(dummyFlies.cross1)+"""</textarea></div>
+				   <div><textarea name="data" rows="5" cols="100">"""+json.dumps(dummyFlies.cross2)+"""</textarea></div>
 				   </br>
 				   <div><input type="submit" value="Check cross"></div>
 			    </form>
