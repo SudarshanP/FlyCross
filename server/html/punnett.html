@@ -3,15 +3,29 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <title>Title Goes Here</title>
+<style>
+.vvtext {
+   -moz-transform:rotate(-270deg); 
+   -moz-transform-origin: bottom left;
+   -webkit-transform: rotate(-270deg);
+   -webkit-transform-origin: bottom left;
+   -o-transform: rotate(-270deg);
+   -o-transform-origin:  bottom left;
+   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+}
+.vtext {
+   width:1em;
+}
+</style>
 <script type="text/javascript" src="punnett.json"></script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 <script type="text/javascript" src="coffee-script.js"></script>
 <script type="text/javascript" src="handlebars.js"></script>
 <script id="punHdrTpl" type="text/x-handlebars-template">
-      <tr><td>{{#each fly2Axis}}</td><td>{{this}}{{/each}}</td></tr>
+      <tr><td>{{#each fly2Axis}}</td><td class="vtext">{{this}}{{/each}}</td></tr>
 </script>
 <script id="punRowTpl" type="text/x-handlebars-template">
-      <tr><td>{{gamete}}{{#each flies}}</td><td align="center">{{#if warnings}}!{{/if}}{{phenotype}}{{/each}}</td></tr>
+      <tr><td>{{gamete}}{{#each flies}}</td><td align="center">{{#if warnings}}!{{/if}}&nbsp;{{/each}}</td></tr>
 </script>
 <script id="punTpl" type="text/x-handlebars-template">
     <table border="2" id='punTable'>
