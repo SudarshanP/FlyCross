@@ -89,8 +89,8 @@ class Fly():
 		self.sterile=False
 		self.markerInterference=False
 		for combo in geneCombinations:
-			i=index[combo[0]]
-			j=index[combo[1]]
+			i=index.index(combo[0])#first 'index' is my variable, second id list func.... Needs better naming
+			j=index.index(combo[1])#first 'index' is my variable, second id list func.... Needs better naming
 			tag=compMatrix[i][j]
 			if 'l' in tag : self.lethal=True
 			if 's' in tag : self.sterile=True
