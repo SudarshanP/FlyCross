@@ -17,7 +17,7 @@ fCg[2]=[['tub Gal80ts'],['VGN6341']]
 cross1= {'father':fMg,
 		   'mother':fFg,
 			'child':fCg,
-			'index':{'Y':0,'UAS TntG':1,'CyO':2,'UAS Dicer':3,'tub Gal80ts':4,'VGN6341':5},
+			'index':['Y','UAS TntG','CyO','UAS Dicer','tub Gal80ts','VGN6341'],
 			'compMatrix':[['0','0','0','0','0','0'],
 							  ['0','0','0','0','0','l'],
 							  ['0','0','l','0','0','0'],
