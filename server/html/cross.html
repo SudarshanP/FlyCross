@@ -8,9 +8,12 @@
 <script type="text/javascript" src="coffee-script.js"></script>
 <script type="text/javascript" src="handlebars.js"></script>
 <script type="text/coffeescript" src="parser.coffee"></script>
+<script type="text/javascript" src="punnett.json"></script>
 <script type='text/javascript'>
 handler = function(data) {
-    $("#response").text(data)
+    //$("#response").text(data)
+    window.punnet = JSON.parse(data)
+    showPunnett(punnett)
 }
 window.server = {};
 server.get = function(path,handler) {
@@ -94,7 +97,6 @@ window.makePunnett = ->
    width:1em;
 }
 </style>
-<script type="text/javascript" src="punnett.json"></script>
 <script id="punHdrTpl" type="text/x-handlebars-template">
       <tr><td>{{#each fly2Axis}}</td><td class="vtext">{{this}}{{/each}}</td></tr>
 </script>
@@ -156,19 +158,6 @@ showLegend = (flyMatrix) ->
    $("#pLegend").html makeLegend("Phenotypes",pLegends,pColors)
    $("#gLegend").html makeLegend("Genotypes",gLegends,gColors)
 
-showPunnett = (pun) ->
-   hdrTpl = Handlebars.compile($("#punHdrTpl").html())
-   rowTpl = Handlebars.compile($("#punRowTpl").html())
-   punTpl = Handlebars.compile($("#punTpl").html())
-   hdrHTML = hdrTpl(pun)
-   rows = []
-   for r,i in pun["punnetSquare"]
-      rows.push rowTpl({"gamete":pun["fly1Axis"][i],"flies":r})
-   punHTML = punTpl({"hdr":hdrHTML,"rows":rows})
-   $("#out").html(punHTML)
-   showLegend(pun["punnetSquare"])
-   colorify()
-
 colorify = ->
    $("#punTable").find("tr").each (i) -> 
       $(this).find("td").each (j) -> 
@@ -181,8 +170,20 @@ colorify = ->
             $(this).hover ->
                $("#status").html $(this).data().i+":"+$(this).data().j+$(this).data().fly.genotype+":"+$(this).attr('id')+" | GIdx:"+$(this).data().fly.gLegendIdx+" | PIdx:"+$(this).data().fly.pLegendIdx+"<BR>Messages: "+$(this).data().fly.warnings
 
-$ ->
-   showPunnett(punnett)
+window.showPunnett = (pun) ->
+   hdrTpl = Handlebars.compile($("#punHdrTpl").html())
+   rowTpl = Handlebars.compile($("#punRowTpl").html())
+   punTpl = Handlebars.compile($("#punTpl").html())
+   hdrHTML = hdrTpl(pun)
+   rows = []
+   for r,i in pun["punnetSquare"]
+      rows.push rowTpl({"gamete":pun["fly1Axis"][i],"flies":r})
+   punHTML = punTpl({"hdr":hdrHTML,"rows":rows})
+   $("#out").html(punHTML)
+   showLegend(pun["punnetSquare"])
+   colorify()  
+#$ ->
+#   #showPunnett(punnett)
 </script>
 </head>
 <body>
@@ -199,7 +200,6 @@ Progeny: <input type='text' id='kid' value='A,B,C/D,E,F;G,H/I,Q;+/+'> <input typ
 <input type='submit' value='Make Punnett Square' onClick='parseDad();parseMom();parseKid();makePunnett();return false' />
 <hr>
 <div id='response'></div>
-<p>Punnett Square</p>
 <div id="status">&nbsp;<br>&nbsp;</div>
 <div id="out"></div>
 <table>
