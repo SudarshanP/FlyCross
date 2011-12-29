@@ -4,6 +4,7 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <title>Title Goes Here</title>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script type="text/javascript" src="cross1.json"></script>
 <script type="text/javascript" src="coffee-script.js"></script>
 <script type="text/javascript" src="handlebars.js"></script>
 <script type="text/coffeescript" src="parser.coffee"></script>
@@ -22,13 +23,13 @@ server.get = function(path,handler) {
       dataType: "text"
     });
 }
-server.post = function(path,data,handler) {
+server.post = function(path,d,handler) {
     $.ajax({
       type: 'POST',
       url: path,
       contentType: "application/json",
       processData: false,
-      "data": data,
+      data: d,
       success: handler,
       dataType: "text"
     });
@@ -76,16 +77,8 @@ window.parseKid = ->
    k = parseFly($('#kid').val())
    $('#oKid').html(template(k))
 window.makePunnett = ->
-   alert("Hi")
-   d = {}
-   d['index']
-   d['compMatrix'] = []
-   d['balancers']
-   d['markers']
-   d['father'] = $("#dad").val()
-   d['mother'] = $("#mother").val()
-   d['child'] = $("#child").val()
-   server.post("/checkCross",d,handler)
+   #alert(inputData["index"])
+   server.post("/checkCross",JSON.stringify(inputData),handler)
 </script>
 
 </head>

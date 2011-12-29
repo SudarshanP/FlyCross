@@ -22,7 +22,7 @@ class MainPage(webapp.RequestHandler):
 
 class CheckCrossReply(webapp.RequestHandler):
 	def post(self):
-		jsonDataFromCS=json.loads(cgi.escape(self.request.get('data')))
+		jsonDataFromCS=json.loads(cgi.escape(self.request.body))
 		index=jsonDataFromCS['index']
 		compMatrix=jsonDataFromCS['compMatrix']
 		balancers=jsonDataFromCS['balancers']
@@ -33,13 +33,16 @@ class CheckCrossReply(webapp.RequestHandler):
 		child=Fly(jsonDataFromCS['child'])
 
 		punnettSqr=json.dumps(punnettDict(father,mother))
-
-		#self.response.out.write('<html><body>You wrote:<pre>')
 		self.response.out.write(punnettSqr)
-		#self.response.out.write('</pre></body></html>')
+
+class Echo(webapp.RequestHandler):
+	def post(self):
+		self.response.out.write(self.request.body)
+
 
 application = webapp.WSGIApplication(
                                      [('/', MainPage),
+                                      ('/echo', Echo),
                                       ('/checkCross', CheckCrossReply)],
                                      debug=True)
 

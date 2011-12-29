@@ -16,13 +16,13 @@ server.get = function(path,handler) {
       dataType: "text"
     });
 }
-server.post = function(path,data,handler) {
+server.post = function(path,d,handler) {
     $.ajax({
       type: 'POST',
       url: path,
       contentType: "application/json",
       processData: false,
-      "data": data,
+      data: d,
       success: handler,
       dataType: "text"
     });
@@ -34,7 +34,7 @@ function Get() {
 function Post() {
    url = $('#purl').val();
    d = $('#data').val();
-   server.get(url,d,handler);
+   server.post(url,d,handler);
 }
 </script>
 <body>
