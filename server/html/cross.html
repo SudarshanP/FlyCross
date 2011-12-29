@@ -4,16 +4,16 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <title>Title Goes Here</title>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-<script type="text/javascript" src="cross1.json"></script>
+<script type="text/javascript" src="cross2.json"></script>
 <script type="text/javascript" src="coffee-script.js"></script>
 <script type="text/javascript" src="handlebars.js"></script>
 <script type="text/coffeescript" src="parser.coffee"></script>
-<script type="text/javascript" src="punnett.json"></script>
+<!--script type="text/javascript" src="punnett.json"></script-->
 <script type='text/javascript'>
 handler = function(data) {
-    //$("#response").text(data)
-    window.punnet = JSON.parse(data)
-    showPunnett(punnett)
+    $("#response").text(data)
+    //window.punnet = JSON.parse(data)
+    showPunnett(JSON.parse(data))
 }
 window.server = {};
 server.get = function(path,handler) {
