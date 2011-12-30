@@ -13,7 +13,7 @@ class MainPage(webapp.RequestHandler):
 			<html>
 			  <body>
 			    <form action="/checkCross" method="post">
-				   <div><textarea name="data" rows="5" cols="100">"""+json.dumps(dummyFlies.cross1)+"""</textarea></div>
+				   <div><textarea name="data" rows="5" cols="100">"""+json.dumps(dummyFlies.cross2)+"""</textarea></div>
 				   </br>
 				   <div><input type="submit" value="Check cross"></div>
 			    </form>
@@ -24,10 +24,10 @@ class CheckCrossReply(webapp.RequestHandler):
 	def post(self):
 		jsonDataFromCS=json.loads(cgi.escape(self.request.body))
 		index=jsonDataFromCS['index']
-		compMatrix=jsonDataFromCS['compMatrix']
+		constraints=jsonDataFromCS['constraints']
 		balancers=jsonDataFromCS['balancers']
 		markers=jsonDataFromCS['markers']
-		updateLists(indexList=index,compMat=compMatrix,balancersList=balancers,markersList=markers)
+		updateLists(indexList=index,constraintsList=constraints,balancersList=balancers,markersList=markers)
 		father=Fly(jsonDataFromCS['father'])
 		mother=Fly(jsonDataFromCS['mother'])
 		child=Fly(jsonDataFromCS['child'])

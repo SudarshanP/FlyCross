@@ -10,12 +10,12 @@ index=[]
 compMatrix=[]
 balancers=[]
 markers=[]
-def updateLists(indexList,compMat,balancersList,markersList):
+def updateLists(indexList,constraintsList,balancersList,markersList):
 	global index
-	global compMatrix
+	global constraints
 	global balancers
 	global markers
-	(index,compMatrix,balancers,markers)=(indexList,compMat,balancersList,markersList)
+	(index,constraints,balancers,markers)=(indexList,constraintsList,balancersList,markersList)
 
 
 class Chromosome():
@@ -83,18 +83,18 @@ class Fly():
 			else:chrList.append([chrA,chrB])
 		self.gametes=list(itertools.product(*chrList))
 
-		# # look at compMatrix for lethality(l),sterility(s) and markerInterference(i)
+		# # look at constraints for lethality(l),sterility(s) and markerInterference(i)
 		geneCombinations=itertools.product(self.allGenes,self.allGenes)
 		self.lethal=False
 		self.sterile=False
 		self.markerInterference=False
-		for combo in geneCombinations:
-			i=index.index(combo[0])#first 'index' is my variable, second id list func.... Needs better naming
-			j=index.index(combo[1])#first 'index' is my variable, second id list func.... Needs better naming
-			tag=compMatrix[i][j]
-			if 'l' in tag : self.lethal=True
-			if 's' in tag : self.sterile=True
-			if 'i' in tag : self.markerInterference=True
+		#for combo in geneCombinations:
+		#	i=index.index(combo[0])#first 'index' is my variable, second id list func.... Needs better naming
+		#	j=index.index(combo[1])#first 'index' is my variable, second id list func.... Needs better naming
+		#	tag=compMatrix[i][j]
+		#	if 'l' in tag : self.lethal=True
+		#	if 's' in tag : self.sterile=True
+		#	if 'i' in tag : self.markerInterference=True
 
 	def __str__(self):
 		#return str(self.allGenes)
