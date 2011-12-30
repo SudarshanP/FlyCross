@@ -158,11 +158,11 @@ showLegend = (flyMatrix) ->
    $("#pLegend").html makeLegend("Phenotypes",pLegends,pColors)
    $("#gLegend").html makeLegend("Genotypes",gLegends,gColors)
 
-colorify = ->
+colorify = (flyMatrix) ->
    $("#punTable").find("tr").each (i) -> 
       $(this).find("td").each (j) -> 
          if i && j
-            fly = punnett["punnetSquare"][i-1][j-1]
+            fly = flyMatrix[i-1][j-1]
             $(this).data({"i":i,"j":j,"fly":fly})
             $(this).attr({"id":"fly_"+(i-1)+"_"+(j-1)})
             $(this).css("background-color":pColors[fly.pLegendIdx]).css("color":gColors[fly.gLegendIdx])
@@ -181,7 +181,7 @@ window.showPunnett = (pun) ->
    punHTML = punTpl({"hdr":hdrHTML,"rows":rows})
    $("#out").html(punHTML)
    showLegend(pun["punnetSquare"])
-   colorify()  
+   colorify(pun["punnetSquare"])  
 #$ ->
 #   #showPunnett(punnett)
 </script>
