@@ -4,7 +4,7 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <title>Title Goes Here</title>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-<script type="text/javascript" src="cross2.json"></script>
+<script type="text/javascript" src="cross.json"></script>
 <script type="text/javascript" src="coffee-script.js"></script>
 <script type="text/javascript" src="handlebars.js"></script>
 <script type="text/coffeescript" src="parser.coffee"></script>
@@ -81,7 +81,7 @@ window.parseKid = ->
    $('#oKid').html(template(k))
 window.makePunnett = ->
    #alert(inputData["index"])
-   server.post("/checkCross",JSON.stringify(inputData),handler)
+   server.post("/checkCross",JSON.stringify(window[$("#crossNo").val()]),handler)
 </script>
 <style>
 .vvtext {
@@ -197,6 +197,7 @@ Progeny: <input type='text' id='kid' value='A,B,C/D,E,F;G,H/I,Q;+/+'> <input typ
 <hr>
 <div id="oKid"></div>
 <hr>
+Dummy test cross: <input type='text' id='crossNo' value='cross2'><br>
 <input type='submit' value='Make Punnett Square' onClick='parseDad();parseMom();parseKid();makePunnett();return false' />
 <hr>
 <div id='response'></div>
