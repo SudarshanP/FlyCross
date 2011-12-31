@@ -52,7 +52,6 @@ def updateLists(indexList,constraintsList,balancersList,markersList):
 	rlTemp=[]
 	rsTemp=[]
 	for constraint,tag in constraints:
-		tag=tag[0]
 		if tag=='l':lList.append(listToDict(constraint))
 		elif tag=='rl':rlTemp.append(listToDict(constraint))
 		elif tag=='s':sList.append(listToDict(constraint))
