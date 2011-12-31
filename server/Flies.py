@@ -111,9 +111,6 @@ class Fly():
 			recB=chrB.recMarkers
 			self.phenotype+=filter(lambda x:x in chrA.domMarkers,chrB.domMarkers)#intersection of domMarkers
 			self.phenotype+=chrA.recMarkers+filter(lambda x:x not in chrA.recMarkers,chrB.recMarkers)#union of recMarkers
-			#self.phenotype+=chrA.domMarkers+chrB.domMarkers
-			#for m in recA:
-			#	if m in recB:self.phenotype.append(m)
 
 		# # Find genoHash and phenoHash
 		self.flyHash=genoHash(self.genotype)
@@ -143,13 +140,6 @@ class Fly():
 		self.lethal=checkConstraint(lList,rlList)
 		self.sterile=checkConstraint(sList,rsList)
 		self.markerInterference=checkConstraint(iList,riList)
-		#for combo in geneCombinations:
-		#	i=index.index(combo[0])#first 'index' is my variable, second id list func.... Needs better naming
-		#	j=index.index(combo[1])#first 'index' is my variable, second id list func.... Needs better naming
-		#	tag=compMatrix[i][j]
-		#	if 'l' in tag : self.lethal=True
-		#	if 's' in tag : self.sterile=True
-		#	if 'i' in tag : self.markerInterference=True
 
 	def __str__(self):
 		#return str(self.allGenes)
@@ -217,16 +207,4 @@ def punnettDict(fly1,fly2):
 	return {'fly1Axis':fly1Axis,
 			  'fly2Axis':fly2Axis,
 			  'punnetSquare':p}
-
-def oldCross(fly1,fly2):
-	f1Flies=[]
-	prod=itertools.product(fly1.gametes,fly2.gametes)
-	for fly1gam,fly2gam in prod:
-		f1FlyG=[]
-		for i in range(len(fly1gam)):
-			if (fly1gam[i].cHash != fly2gam[i].cHash) and not(fly1gam[i].balancer or fly2gam[i].balancer) and not(fly1gam[i].Y or fly2gam[i].Y):
-				print "Warning! Recombination will occur betweeen "+str(fly1gam[i])+" and "+str(fly2gam[i])
-			f1FlyG.append([fly1gam[i].geneList,fly2gam[i].geneList])
-		f1Flies.append(Fly(f1FlyG))
-	return f1Flies
 
