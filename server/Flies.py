@@ -6,17 +6,61 @@ def genoHash(genotype):
 		genoHash.append(sorted([chrA.cHash,chrB.cHash]))
 	return genoHash
 
+def listToDict(lst):
+	dct={}
+	for item in lst:
+		if item in dct: dct[item]+=1
+		else: dct[item]=1
+	return dct
+
+def dictSubset(d1,d2):#to check if d1 is subset of d2
+	for d1key in d1:
+		if d1key in d2:
+			if d1[d1key]>d2[d1key]: return False
+		else: return False
+	return True
+
+def findRescuerPairs(causerList,rawRescuerList):# find a list of rescuers for each lethal set
+	rescuerList=[]
+	for causer in causerList:
+		rescuers=[]
+		for r in rawRescuerList:
+			if dictSubset(causer,r):rescuers.append(r)
+		rescuerList.append(rescuers)
+	return rescuerList
+
+
 index=[]
-compMatrix=[]
+lList=[]#lethal: list of dicts
+rlList=[]#rescues lethality: list of list of dicts
+sList=[]#sterile: list of dicts
+rsList=[]#rescues sterility: list of list of dicts
+iList=[]#marker interference (cant be rescued)
+riList=[]#kept for uniformity with the other lists
 balancers=[]
 markers=[]
 def updateLists(indexList,constraintsList,balancersList,markersList):
 	global index
-	global constraints
 	global balancers
 	global markers
 	(index,constraints,balancers,markers)=(indexList,constraintsList,balancersList,markersList)
-
+	global lList
+	global rlList
+	global sList
+	global rsList
+	global iList
+	rlTemp=[]
+	rsTemp=[]
+	for constraint,tag in constraints:
+		tag=tag[0]
+		if tag=='l':lList.append(listToDict(constraint))
+		elif tag=='rl':rlTemp.append(listToDict(constraint))
+		elif tag=='s':sList.append(listToDict(constraint))
+		elif tag=='rs':rsTemp.append(listToDict(constraint))
+		elif tag=='i':iList.append(listToDict(constraint))
+	rlList=findRescuerPairs(lList,rlTemp)	
+	rsList=findRescuerPairs(sList,rsTemp)
+	riList=findRescuerPairs(iList,[])
 
 class Chromosome():
 	def __init__(self,geneList):
@@ -83,11 +127,23 @@ class Fly():
 			else:chrList.append([chrA,chrB])
 		self.gametes=list(itertools.product(*chrList))
 
+		def checkConstraint(causerList,rescuerList):
+			flyGeneDict=listToDict(self.allGenes)
+			for i in range(len(causerList)):
+				if dictSubset(causerList[i],flyGeneDict):
+					rescued=False
+					for rescuer in rescuerList[i]:
+						if dictSubset(rescuer,flyGeneDict):
+							rescued=True
+							break
+					if not rescued: return True
+			return False
+						
+
 		# # look at constraints for lethality(l),sterility(s) and markerInterference(i)
-		geneCombinations=itertools.product(self.allGenes,self.allGenes)
-		self.lethal=False
-		self.sterile=False
-		self.markerInterference=False
+		self.lethal=checkConstraint(lList,rlList)
+		self.sterile=checkConstraint(sList,rsList)
+		self.markerInterference=checkConstraint(iList,riList)
 		#for combo in geneCombinations:
 		#	i=index.index(combo[0])#first 'index' is my variable, second id list func.... Needs better naming
 		#	j=index.index(combo[1])#first 'index' is my variable, second id list func.... Needs better naming
