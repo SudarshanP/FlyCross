@@ -56,9 +56,7 @@ def updateLists(constraintsList,balancersList,markersList):
 	global iList
 	rlTemp=[]
 	rsTemp=[]
-#	print '~',constraints
 	for constraint,tag in constraints:
-#		print constraint,'~',tag
 		if tag=='l':lList.append(listToDict(constraint))
 		elif tag=='rl':rlTemp.append(listToDict(constraint))
 		elif tag=='s':sList.append(listToDict(constraint))
@@ -104,7 +102,7 @@ class Fly():
 		for chrAList,chrBList in genotypeList:
 			self.allGenes+=chrAList+chrBList
 			self.genotype.append([Chromosome(chrAList),Chromosome(chrBList)])
-			logging.info(('chrA,B balancer?',str(Chromosome(chrAList)),Chromosome(chrAList).balancer,str(Chromosome(chrBList)),Chromosome(chrAList).balancer))
+			#logging.info(('chrA,B balancer?',str(Chromosome(chrAList)),Chromosome(chrAList).balancer,str(Chromosome(chrBList)),Chromosome(chrBList).balancer))
 		self.allGenes=filter(lambda x: x!='+',self.allGenes)#remove all instances of +
 
 		# # Find Gender
@@ -159,6 +157,7 @@ def cross(gamete1,gamete2):
 	warnings=[]
 	for i in range(len(gamete1)):
 		if (gamete1[i].cHash != gamete2[i].cHash) and not(gamete1[i].balancer or gamete2[i].balancer) and not(gamete1[i].Y or gamete2[i].Y):
+			logging.info(('gamete1.balancer, gamete2.balancer',str(gamete1[i]),gamete1[i].balancer,str(gamete2[i]),gamete2[i].balancer))
 			warnings.append( "Warning! Recombination will occur betweeen "+str(gamete1[i])+" and "+str(gamete2[i]))
 		flyG.append([gamete1[i].geneList,gamete2[i].geneList])
 	return warnings,Fly(flyG)
