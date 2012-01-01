@@ -1,4 +1,9 @@
 import itertools
+import logging
+import sys
+import json
+
+#logging.getLogger().setLevel(logging.DEBUG)
 
 def genoHash(genotype):
 	genoHash=[]
@@ -30,7 +35,6 @@ def findRescuerPairs(causerList,rawRescuerList):# find a list of rescuers for ea
 	return rescuerList
 
 
-index=[]
 lList=[]#lethal: list of dicts
 rlList=[]#rescues lethality: list of list of dicts
 sList=[]#sterile: list of dicts
@@ -39,11 +43,12 @@ iList=[]#marker interference (cant be rescued)
 riList=[]#kept for uniformity with the other lists
 balancers=[]
 markers=[]
-def updateLists(indexList,constraintsList,balancersList,markersList):
-	global index
+def updateLists(constraintsList,balancersList,markersList):
+	logging.info(('markersList',json.dumps(markersList)))
+	#print>>sys.stderr,'blahhhhhhhhhhhhhhhhhhhhh'+str(balancersList)
 	global balancers
 	global markers
-	(index,constraints,balancers,markers)=(indexList,constraintsList,balancersList,markersList)
+	(constraints,balancers,markers)=(constraintsList,balancersList,markersList)
 	global lList
 	global rlList
 	global sList
@@ -51,7 +56,9 @@ def updateLists(indexList,constraintsList,balancersList,markersList):
 	global iList
 	rlTemp=[]
 	rsTemp=[]
+#	print '~',constraints
 	for constraint,tag in constraints:
+#		print constraint,'~',tag
 		if tag=='l':lList.append(listToDict(constraint))
 		elif tag=='rl':rlTemp.append(listToDict(constraint))
 		elif tag=='s':sList.append(listToDict(constraint))
@@ -74,6 +81,7 @@ class Chromosome():
 				if gene[0].isupper:self.domMarkers.append(gene)
 				elif gene[0].islower:self.recMarkers.append(gene)
 			if gene=='Y':self.Y=True
+			#logging.info(('gene',gene,'  bal',balancers))
 			if gene in balancers:self.balancer=True
 
 	def __str__(self):
@@ -96,6 +104,7 @@ class Fly():
 		for chrAList,chrBList in genotypeList:
 			self.allGenes+=chrAList+chrBList
 			self.genotype.append([Chromosome(chrAList),Chromosome(chrBList)])
+			logging.info(('chrA,B balancer?',str(Chromosome(chrAList)),Chromosome(chrAList).balancer,str(Chromosome(chrBList)),Chromosome(chrAList).balancer))
 		self.allGenes=filter(lambda x: x!='+',self.allGenes)#remove all instances of +
 
 		# # Find Gender

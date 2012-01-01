@@ -62,6 +62,7 @@ function Post() {
 </script>
 <script type="text/coffeescript">
 $ ->
+   window.punnettReq = {}
    source   = $("#entry-template").html()
    window.template = Handlebars.compile(source)
    #context = {"fly": [[["A","a"],["B","b"],["C","c"]],[["D","d"],["E","e"]]]}
@@ -73,15 +74,43 @@ window.parseDad = ->
    m = parseFly($('#dad').val(),"M")
    #alert(JSON.stringify(m))
    $('#oDad').html(template(m))
+   window.punnettReq["father"] = m["fly"]
 window.parseMom = -> 
    f = parseFly($('#mom').val(),"F")
    $('#oMom').html(template(f))
+   window.punnettReq["mother"] = f["fly"]
 window.parseKid = -> 
    k = parseFly($('#kid').val())
    $('#oKid').html(template(k))
+   window.punnettReq["child"] = k["fly"]
+window.parseBalancers = ->
+   window.punnettReq["balancers"] = parseCommaSepGenes($('#balancers').val())
+window.parseMarkers = ->
+   window.punnettReq["markers"] = parseCommaSepGenes($('#markers').val())
+window.parseConstraints = ->
+   alert("makePunnet")
+   window.punnettReq["constraints"] = parseConstraintList($('#constraints').val())
+window.loadDummy = -> 
+   data = window[$("#crossNo").val()]
+   #alert JSON.stringify()
+   $('#dad').val(data["father"])
+   $('#mom').val(data["mother"])
+   $('#kid').val(data["child"])
+   $('#balancers').val(data["balancers"])
+   $('#markers').val(data["markers"])
+   $('#constraints').val(data["constraints"])
+
 window.makePunnett = ->
-   #alert(inputData["index"])
-   server.post("/checkCross",JSON.stringify(window[$("#crossNo").val()]),handler)
+   
+   parseDad()
+   parseMom()
+   parseKid()   
+   parseBalancers()
+   parseMarkers()
+   parseConstraints()
+   
+   alert JSON.stringify(window.punnettReq)
+   server.post("/checkCross",JSON.stringify(window.punnettReq),handler)
 </script>
 <style>
 .vvtext {
@@ -187,18 +216,34 @@ window.showPunnett = (pun) ->
 </script>
 </head>
 <body>
-Male: <input type='text' id='dad' value="A,B,(((C)})/D,Y,F;G,Y,H/I,J;+/+"> <input type='submit' value='Ok' onClick='parseDad(); return false' /><br>
-<div id='oDad'></div>
+Dummy test cross: <input type='text' id='crossNo' value='cross2'><input type='submit' value='Load' onClick='loadDummy();return false' />
 <hr>
-Female: <input type='text' id='mom' value='P,B,C/D,E,F;G,H/I,J;+/+'> <input type='submit' value='Ok' onClick='parseMom(); return false' /><br>
-<div id='oMom'></div>
-<hr>
-Progeny: <input type='text' id='kid' value='A,B,C/D,E,F;G,H/I,Q;+/+'> <input type='submit' value='Ok' onClick='parseKid(); return false' /><br>
-<hr>
-<div id="oKid"></div>
-<hr>
-Dummy test cross: <input type='text' id='crossNo' value='cross2'><br>
-<input type='submit' value='Make Punnett Square' onClick='parseDad();parseMom();parseKid();makePunnett();return false' />
+<table>
+  <tr>
+    <td valign='top'>
+       Male: <input type='text' id='dad' value=""> <input type='submit' value='Ok' onClick='parseDad(); return false' /><br>
+       <div id='oDad'></div>
+       <hr>
+       Female: <input type='text' id='mom' value=''> <input type='submit' value='Ok' onClick='parseMom(); return false' /><br>
+       <div id='oMom'></div>
+       <hr>
+       Progeny: <input type='text' id='kid' value=''> <input type='submit' value='Ok' onClick='parseKid(); return false' /><br>
+       <div id="oKid"></div>
+       <hr>
+       Balancers: <input type='text' id='balancers' value=''> <input type='submit' value='Ok' onClick='parseBalancers(); return false' /><br>
+       <div id="oBalancers"></div>
+       <hr>
+       Markers: <input type='text' id='markers' value=''> <input type='submit' value='Ok' onClick='parseMarkers(); return false' /><br>
+       <div id="oMarkers"></div>
+       <hr>
+     </td>
+     <td valign='top'>
+       <h2>Constraints</h2>
+       <textarea cols=50 rows=20 id='constraints'></textarea>
+     </td>
+   <tr>
+</table>
+<input type='submit' value='Make Punnett Square' onClick='makePunnett();return false' />
 <hr>
 <div id='response'></div>
 <div id="status">&nbsp;<br>&nbsp;</div>

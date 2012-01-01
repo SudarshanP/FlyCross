@@ -23,11 +23,10 @@ class MainPage(webapp.RequestHandler):
 class CheckCrossReply(webapp.RequestHandler):
 	def post(self):
 		jsonDataFromCS=json.loads(cgi.escape(self.request.body))
-		index=jsonDataFromCS['index']
 		constraints=jsonDataFromCS['constraints']
 		balancers=jsonDataFromCS['balancers']
 		markers=jsonDataFromCS['markers']
-		updateLists(indexList=index,constraintsList=constraints,balancersList=balancers,markersList=markers)
+		updateLists(constraintsList=constraints,balancersList=balancers,markersList=markers)
 		father=Fly(jsonDataFromCS['father'])
 		mother=Fly(jsonDataFromCS['mother'])
 		child=Fly(jsonDataFromCS['child'])
