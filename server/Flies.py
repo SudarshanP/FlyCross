@@ -44,8 +44,6 @@ riList=[]#kept for uniformity with the other lists
 balancers=[]
 markers=[]
 def updateLists(constraintsList,balancersList,markersList):
-	logging.info(('markersList',json.dumps(markersList)))
-	#print>>sys.stderr,'blahhhhhhhhhhhhhhhhhhhhh'+str(balancersList)
 	global balancers
 	global markers
 	(constraints,balancers,markers)=(constraintsList,balancersList,markersList)
@@ -76,10 +74,11 @@ class Chromosome():
 		self.balancer=False
 		for gene in geneList:
 			if gene in markers:
-				if gene[0].isupper:self.domMarkers.append(gene)
-				elif gene[0].islower:self.recMarkers.append(gene)
+				if gene[0].isupper():
+					self.domMarkers.append(gene)
+					logging.info(('dom',gene,gene[0],gene[0].isupper()))
+				elif gene[0].islower():self.recMarkers.append(gene)
 			if gene=='Y':self.Y=True
-			#logging.info(('gene',gene,'  bal',balancers))
 			if gene in balancers:self.balancer=True
 
 	def __str__(self):
@@ -102,7 +101,6 @@ class Fly():
 		for chrAList,chrBList in genotypeList:
 			self.allGenes+=chrAList+chrBList
 			self.genotype.append([Chromosome(chrAList),Chromosome(chrBList)])
-			#logging.info(('chrA,B balancer?',str(Chromosome(chrAList)),Chromosome(chrAList).balancer,str(Chromosome(chrBList)),Chromosome(chrBList).balancer))
 		self.allGenes=filter(lambda x: x!='+',self.allGenes)#remove all instances of +
 
 		# # Find Gender
@@ -116,8 +114,9 @@ class Fly():
 		for chrA,chrB in self.genotype:
 			recA=chrA.recMarkers
 			recB=chrB.recMarkers
-			self.phenotype+=filter(lambda x:x in chrA.domMarkers,chrB.domMarkers)#intersection of domMarkers
-			self.phenotype+=chrA.recMarkers+filter(lambda x:x not in chrA.recMarkers,chrB.recMarkers)#union of recMarkers
+			#logging.info(('domMarkers',chrA.domMarkers,chrB.domMarkers))
+			self.phenotype+=filter(lambda x:x in chrA.recMarkers,chrB.recMarkers)#intersection of recMarkers
+			self.phenotype+=chrA.domMarkers+filter(lambda x:x not in chrA.domMarkers,chrB.domMarkers)#union of domMarkers
 
 		# # Find genoHash and phenoHash
 		self.flyHash=genoHash(self.genotype)
@@ -149,7 +148,6 @@ class Fly():
 		self.markerInterference=checkConstraint(iList,riList)
 
 	def __str__(self):
-		#return str(self.allGenes)
 		return " ; ".join([str(chromosomeA)+' / '+str(chromosomeB) for chromosomeA,chromosomeB in self.genotype])
 
 def cross(gamete1,gamete2):
@@ -157,7 +155,6 @@ def cross(gamete1,gamete2):
 	warnings=[]
 	for i in range(len(gamete1)):
 		if (gamete1[i].cHash != gamete2[i].cHash) and not(gamete1[i].balancer or gamete2[i].balancer) and not(gamete1[i].Y or gamete2[i].Y):
-			logging.info(('gamete1.balancer, gamete2.balancer',str(gamete1[i]),gamete1[i].balancer,str(gamete2[i]),gamete2[i].balancer))
 			warnings.append( "Warning! Recombination will occur betweeen "+str(gamete1[i])+" and "+str(gamete2[i]))
 		flyG.append([gamete1[i].geneList,gamete2[i].geneList])
 	return warnings,Fly(flyG)
