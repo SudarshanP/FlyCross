@@ -76,7 +76,6 @@ class Chromosome():
 			if gene in markers:
 				if gene[0].isupper():
 					self.domMarkers.append(gene)
-					logging.info(('dom',gene,gene[0],gene[0].isupper()))
 				elif gene[0].islower():self.recMarkers.append(gene)
 			if gene=='Y':self.Y=True
 			if gene in balancers:self.balancer=True
@@ -112,9 +111,6 @@ class Fly():
 		# # Find Phenotype
 		self.phenotype=[self.gender]
 		for chrA,chrB in self.genotype:
-			recA=chrA.recMarkers
-			recB=chrB.recMarkers
-			#logging.info(('domMarkers',chrA.domMarkers,chrB.domMarkers))
 			self.phenotype+=filter(lambda x:x in chrA.recMarkers,chrB.recMarkers)#intersection of recMarkers
 			self.phenotype+=chrA.domMarkers+filter(lambda x:x not in chrA.domMarkers,chrB.domMarkers)#union of domMarkers
 
