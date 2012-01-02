@@ -1,4 +1,6 @@
-import cgi,re,json
+import cgi,re
+
+from django.utils import simplejson as json
 
 from Flies import *
 import dummyFlies

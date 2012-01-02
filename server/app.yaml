@@ -1,4 +1,4 @@
-application: flycross
+application: flycrosser
 version: 1
 runtime: python
 api_version: 1

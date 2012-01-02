@@ -1,9 +1,19 @@
-import itertools
+#import itertools
 import logging
 import sys
-import json
+from django.utils import simplejson as json
 
 #logging.getLogger().setLevel(logging.DEBUG)
+
+def product(*args, **kwds):
+	# product('ABCD', 'xy') --> Ax Ay Bx By Cx Cy Dx Dy
+	# product(range(2), repeat=3) --> 000 001 010 011 100 101 110 111
+	pools = map(tuple, args) * kwds.get('repeat', 1)
+	result = [[]]
+	for pool in pools:
+		result = [x+[y] for x in result for y in pool]
+	for prod in result:
+		yield list(prod)
 
 def genoHash(genotype):
 	genoHash=[]
@@ -123,7 +133,7 @@ class Fly():
 		for chrA,chrB in self.genotype:
 			if chrA.cHash==chrB.cHash:chrList.append([chrA])
 			else:chrList.append([chrA,chrB])
-		self.gametes=list(itertools.product(*chrList))
+		self.gametes=list(product(*chrList))
 
 		def checkConstraint(causerList,rescuerList):
 			flyGeneDict=listToDict(self.allGenes)
