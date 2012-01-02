@@ -1,0 +1,248 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>Title Goes Here</title>
+<link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css">
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script type="text/javascript" src="json/cross.json"></script>
+<script type="text/javascript" src="js/coffee-script.js"></script>
+<script type="text/javascript" src="js/handlebars.js"></script>
+<script type="text/javascript" src="js/bootstrap-twipsy.js"></script>
+<script type="text/javascript" src="js/bootstrap-popover.js"></script>
+<script type="text/coffeescript" src="coffee/parser.coffee"></script>
+<script type="text/javascript" src="js/ajax.js"></script>
+<!--script type="text/javascript" src="punnett.json"></script-->
+<script type='text/javascript'>
+handler = function(data) {
+    //$("#response").text(data)
+    //window.punnet = JSON.parse(data)
+    showPunnett(JSON.parse(data))
+}
+
+</script>
+<script id="entry-template" type="text/x-handlebars-template">
+<div>
+  {{#if error}}
+     <B>{{error}}</B><br>{{frag}}
+  {{else}}
+     <table border="2">
+     {{#each fly}}<tr>
+        {{#each this}}<td>
+            {{#each this}}<span style="padding:10px;color:green;">
+                {{this}}
+            </span>{{/each}}
+        </td>{{/each}}
+     </tr>{{/each}}
+     </table>
+   {{/if}}
+</div>
+</script>
+<style>
+.vtext {
+   widhth:20px;
+}
+.vvtext {
+   width:1em;
+}				
+.puncell {
+   width:20px;
+}
+.rot {
+   width:300px;
+   -moz-transform:rotate(-90deg);
+}
+</style>
+<script id="punHdrTpl" type="text/x-handlebars-template">
+      <tr><td>{{#each fly2Axis}}</td><td class="vtext">#{{/each}}</td></tr>
+</script>
+<script id="punRowTpl" type="text/x-handlebars-template">
+      <tr><td>{{gamete}}{{#each flies}}</td><td align="center" class="puncell">{{#if warnings}}!{{/if}}&nbsp;{{/each}}</td></tr>
+</script>
+<script id="punTpl" type="text/x-handlebars-template">
+    <table border="2" id='punTable'>
+        {{{hdr}}}
+        {{#each rows}}{{{this}}}{{/each}}
+    </table>
+</script>
+<script id="legendTpl" type="text/x-handlebars-template">
+    <h2>{{title}}</h2>
+    <table border="2">
+        {{#each rows}}{{{this}}}{{/each}}
+    </table>
+</script>
+<script id="legendRowTpl" type="text/x-handlebars-template">
+   <tr><td>{{txt}}</td><td style="background-color:{{color}};width:15px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+</script>
+
+<script type="text/coffeescript">
+window.gColors = ["#FF0000","#00FF00","#0000FF","#FF00FF","#00FFFF","#FFFF00","#70DB93","#5C3317","#9F5F9F","#B5A642","#D9D919","#A62A2A","#8C7853","#A67D3D","#5F9F9F","#D98719","#B87333","#FF7F00","#42426F","#5C4033","#2F4F2F","#4A766E","#4F4F2F","#9932CD","#871F78","#6B238E","#2F4F4F","#97694F","#7093DB","#855E42","#545454","#856363","#D19275","#8E2323","#F5CCB0","#238E23","#CD7F32","#DBDB70","#C0C0C0","#527F76","#93DB70","#215E21","#4E2F2F","#9F9F5F","#C0D9D9","#A8A8A8","#8F8FBD","#E9C2A6","#32CD32","#E47833","#8E236B","#32CD99","#3232CD","#6B8E23","#EAEAAE","#9370DB","#426F42","#7F00FF","#7FFF00","#70DBDB","#DB7093","#A68064","#2F2F4F","#23238E","#4D4DFF","#FF6EC7","#00009C","#EBC79E","#CFB53B","#FF7F00","#FF2400","#DB70DB","#8FBC8F","#BC8F8F","#EAADEA","#D9D9F3","#5959AB","#6F4242","#8C1717","#238E68","#6B4226","#8E6B23","#E6E8FA","#3299CC","#007FFF","#FF1CAE","#00FF7F","#236B8E","#38B0DE","#DB9370","#D8BFD8","#ADEAEA","#5C4033","#CDCDCD","#4F2F4F","#CC3299","#D8D8BF","#99CC32"]
+window.pColors = ["#99CC32","#D8D8BF","#CC3299","#4F2F4F","#CDCDCD","#5C4033","#ADEAEA","#D8BFD8","#DB9370","#38B0DE","#236B8E","#00FF7F","#FF1CAE","#007FFF","#3299CC","#E6E8FA","#8E6B23","#6B4226","#238E68","#8C1717","#6F4242","#5959AB","#D9D9F3","#EAADEA","#BC8F8F","#8FBC8F","#DB70DB","#FF2400","#FF7F00","#CFB53B","#EBC79E","#00009C","#FF6EC7","#4D4DFF","#23238E","#2F2F4F","#A68064","#DB7093","#70DBDB","#7FFF00","#7F00FF","#426F42","#9370DB","#EAEAAE","#6B8E23","#3232CD","#32CD99","#8E236B","#E47833","#32CD32","#E9C2A6","#8F8FBD","#A8A8A8","#C0D9D9","#9F9F5F","#4E2F2F","#215E21","#93DB70","#527F76","#C0C0C0","#DBDB70","#CD7F32","#238E23","#F5CCB0","#8E2323","#D19275","#856363","#545454","#855E42","#7093DB","#97694F","#2F4F4F","#6B238E","#871F78","#9932CD","#4F4F2F","#4A766E","#2F4F2F","#5C4033","#42426F","#FF7F00","#B87333","#D98719","#5F9F9F","#A67D3D","#8C7853","#A62A2A","#D9D919","#B5A642","#9F5F9F","#5C3317","#70DB93","#FFFF00","#00FFFF","#FF00FF","#0000FF","#00FF00","#FF0000"]
+
+makeLegend = (title,arr,colors) ->
+   legendRowTpl = Handlebars.compile($("#legendRowTpl").html())
+   legendTpl = Handlebars.compile($("#legendTpl").html())
+   
+   tbl = {}
+   rows = []
+   for txt,i in arr
+      tbl[txt] = colors[i%colors.length]
+      rows.push legendRowTpl({"txt":txt,"color":tbl[txt]})
+   legendTpl({"title":title,"rows":rows})
+
+showLegend = (flyMatrix) ->
+   gLegends = []
+   pLegends = []
+   for row in flyMatrix
+      for fly in row
+         g = fly.genotype
+         idx = gLegends.indexOf g 
+         if idx == -1
+            fly.gLegendIdx = gLegends.length
+            gLegends.push g
+         else
+            fly.gLegendIdx = idx
+
+         p = fly.phenotype.join " "
+         idx = pLegends.indexOf p
+         if idx == -1
+            fly.pLegendIdx = pLegends.length
+            pLegends.push p
+         else
+            fly.pLegendIdx = idx
+
+   $("#pLegend").html makeLegend("Phenotypes",pLegends,pColors)
+   $("#gLegend").html makeLegend("Genotypes",gLegends,gColors)
+
+window.inputMode = -> $("#output").hide();$("#input").show()
+window.outputMode = -> $("#input").hide();$("#output").show()
+
+colorify = (flyMatrix) ->
+   $("#punTable").find("tr").each (i) -> 
+      $(this).find("td").each (j) -> 
+         if i && j
+            fly = flyMatrix[i-1][j-1]
+            $(this).data({"i":i,"j":j,"fly":fly})
+            $(this).attr({"id":"fly_"+(i-1)+"_"+(j-1)})
+            $(this).css("background-color":pColors[fly.pLegendIdx]).css("color":gColors[fly.gLegendIdx])
+            #alert window.pColors.length+":"+fly.pLegendIdx+":"+pColors[fly.pLegendIdx]
+            $(this).hover ->
+               $("#punHoverMsg").html $(this).data().i+":"+$(this).data().j+$(this).data().fly.genotype+":"+$(this).attr('id')+" | GIdx:"+$(this).data().fly.gLegendIdx+" | PIdx:"+$(this).data().fly.pLegendIdx+"<BR>Messages: "+$(this).data().fly.warnings
+
+window.showPunnett = (pun) ->
+   hdrTpl = Handlebars.compile($("#punHdrTpl").html())
+   rowTpl = Handlebars.compile($("#punRowTpl").html())
+   punTpl = Handlebars.compile($("#punTpl").html())
+   hdrHTML = hdrTpl(pun)
+   rows = []
+   for r,i in pun["punnetSquare"]
+      rows.push rowTpl({"gamete":pun["fly1Axis"][i],"flies":r})
+   punHTML = punTpl({"hdr":hdrHTML,"rows":rows})
+   $("#punSqr").html(punHTML)
+   showLegend(pun["punnetSquare"])
+   colorify(pun["punnetSquare"])  
+   $("#punSqr").scrollTop($("#punSqr").position().top)
+   outputMode()
+</script>
+<script type="text/coffeescript">
+$ ->
+   window.punnettReq = {}
+   source   = $("#entry-template").html()
+   window.template = Handlebars.compile(source)
+   #context = {"fly": [[["A","a"],["B","b"],["C","c"]],[["D","d"],["E","e"]]]}
+   #alert template(context)
+   questionMarks = template({"fly": [[["?"],["?"]],[["?"],["?"]],[["?"],["?"]]]})
+   #alert(questionMarks)
+   $("#oDad").html(questionMarks);$("#oMom").html(questionMarks);$("#oKid").html(questionMarks)
+   inputMode()
+window.parseDad = -> 
+   m = parseFly($('#dad').val(),"M")
+   #alert(JSON.stringify(m))
+   $('#oDad').html(template(m))
+   window.punnettReq["father"] = m["fly"]
+window.parseMom = -> 
+   f = parseFly($('#mom').val(),"F")
+   $('#oMom').html(template(f))
+   window.punnettReq["mother"] = f["fly"]
+window.parseKid = -> 
+   k = parseFly($('#kid').val())
+   $('#oKid').html(template(k))
+   window.punnettReq["child"] = k["fly"]
+window.parseBalancers = ->
+   window.punnettReq["balancers"] = parseCommaSepGenes($('#balancers').val())
+window.parseMarkers = ->
+   window.punnettReq["markers"] = parseCommaSepGenes($('#markers').val())
+window.parseConstraints = ->
+   #alert("makePunnet")
+   window.punnettReq["constraints"] = parseConstraintList($('#constraints').val())
+window.loadDummy = -> 
+   data = window[$("#crossNo").val()]
+   #alert JSON.stringify()
+   $('#dad').val(data["father"])
+   $('#mom').val(data["mother"])
+   $('#kid').val(data["child"])
+   $('#balancers').val(data["balancers"])
+   $('#markers').val(data["markers"])
+   $('#constraints').val(data["constraints"])
+
+window.makePunnett = ->
+   
+   parseDad()
+   parseMom()
+   parseKid()   
+   parseBalancers()
+   parseMarkers()
+   parseConstraints()
+   
+   #alert JSON.stringify(window.punnettReq)
+   server.post("/checkCross",JSON.stringify(window.punnettReq),handler)
+</script>
+
+</head>
+<body>
+<div id="input">
+Dummy test cross: <input type='text' id='crossNo' value='cross2'><input type='submit' value='Load' onClick='loadDummy();return false'  class="btn primary"/>
+<table>
+  <tr>
+    <td valign='top'>
+       Male: <input type='text' id='dad' value=""> <input type='submit' value='Ok' onClick='parseDad(); return false'  class="btn primary mini"/><br>
+       <div id='oDad'></div>
+       Female: <input type='text' id='mom' value=''> <input type='submit' value='Ok' onClick='parseMom(); return false'  class="btn primary mini"/><br>
+       <div id='oMom'></div>
+       Progeny: <input type='text' id='kid' value=''> <input type='submit' value='Ok' onClick='parseKid(); return false'  class="btn primary mini"/><br>
+       <div id="oKid"></div>
+       Balancers: <input type='text' id='balancers' value=''> <input type='submit' value='Ok' onClick='parseBalancers(); return false'  class="btn primary mini"/><br>
+       <div id="oBalancers"></div>
+       Markers: <input type='text' id='markers' value=''> <input type='submit' value='Ok' onClick='parseMarkers(); return false'  class="btn primary mini"/><br>
+       <div id="oMarkers"></div>
+     </td>
+     <td valign='top'>
+       <h2>Constraints</h2>
+       <textarea cols=50 rows=20 id='constraints'></textarea>
+     </td>
+   <tr>
+</table>
+<input type='button' value='Make Punnett Square' onClick='makePunnett();return false' class="btn primary"/>
+</div>
+<div id='response'></div>
+<div id="output">
+<input type='submit' value='Back' onClick='inputMode();return false'  class="btn primary"/>
+<div class="row">
+  <div id="punSqr" class="span8"></div>
+  <div id="punHoverMsg" class="span8"></div>
+</div>
+<div class="row">
+   <div  class="span8" id="pLegend"></div>   
+</div>
+</div>
+<!--div class="row">
+   <table class='rot'>
+      <tr><td>Fly1</td></tr>
+      <tr><td>Fly1</td></tr>
+      <tr><td>Fly1</td></tr>
+      <tr><td>Fly1</td></tr>
+      <tr><td>Fly1</td></tr>
+   </table>
+</div-->
+</body>
+</html>

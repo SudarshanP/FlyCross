@@ -1,0 +1,220 @@
+punnett = {
+   "fly2Axis":[
+      "+;UAS TntG;tub Gal80ts",
+      "+;UAS TntG;VGN6341",
+      "+;CyO;tub Gal80ts",
+      "+;CyO;VGN6341"
+   ],
+   "fly1Axis":[
+      "+;UAS TntG;tub Gal80ts",
+      "+;CyO,UAS Dicer;tub Gal80ts",
+      "Y;UAS TntG;tub Gal80ts",
+      "Y;CyO,UAS Dicer;tub Gal80ts"
+   ],
+   "punnetSquare":[
+      [
+         {
+            "genotype":"+ / + ; UAS TntG / UAS TntG ; tub Gal80ts / tub Gal80ts",
+            "warnings":[
+
+            ],
+            "phenotype":[
+               "Female"
+            ],
+            "lethal":false,
+            "sterile":false,
+            "markerInterference":false
+         },
+         {
+            "genotype":"+ / + ; UAS TntG / UAS TntG ; tub Gal80ts / VGN6341",
+            "warnings":[
+               "Warning! Recombination will occur betweeen tub Gal80ts and VGN6341"
+            ],
+            "phenotype":[
+               "Female"
+            ],
+            "lethal":true,
+            "sterile":false,
+            "markerInterference":false
+         },
+         {
+            "genotype":"+ / + ; UAS TntG / CyO ; tub Gal80ts / tub Gal80ts",
+            "warnings":[
+
+            ],
+            "phenotype":[
+               "Female"
+            ],
+            "lethal":true,
+            "sterile":false,
+            "markerInterference":false
+         },
+         {
+            "genotype":"+ / + ; UAS TntG / CyO ; tub Gal80ts / VGN6341",
+            "warnings":[
+               "Warning! Recombination will occur betweeen tub Gal80ts and VGN6341"
+            ],
+            "phenotype":[
+               "Female"
+            ],
+            "lethal":true,
+            "sterile":false,
+            "markerInterference":false
+         }
+      ],
+      [
+         {
+            "genotype":"+ / + ; CyO,UAS Dicer / UAS TntG ; tub Gal80ts / tub Gal80ts",
+            "warnings":[
+
+            ],
+            "phenotype":[
+               "Female"
+            ],
+            "lethal":true,
+            "sterile":false,
+            "markerInterference":false
+         },
+         {
+            "genotype":"+ / + ; CyO,UAS Dicer / UAS TntG ; tub Gal80ts / VGN6341",
+            "warnings":[
+               "Warning! Recombination will occur betweeen tub Gal80ts and VGN6341"
+            ],
+            "phenotype":[
+               "Female"
+            ],
+            "lethal":true,
+            "sterile":false,
+            "markerInterference":false
+         },
+         {
+            "genotype":"+ / + ; CyO,UAS Dicer / CyO ; tub Gal80ts / tub Gal80ts",
+            "warnings":[
+
+            ],
+            "phenotype":[
+               "Female",
+               "CyO"
+            ],
+            "lethal":true,
+            "sterile":false,
+            "markerInterference":false
+         },
+         {
+            "genotype":"+ / + ; CyO,UAS Dicer / CyO ; tub Gal80ts / VGN6341",
+            "warnings":[
+               "Warning! Recombination will occur betweeen tub Gal80ts and VGN6341"
+            ],
+            "phenotype":[
+               "Female",
+               "CyO"
+            ],
+            "lethal":true,
+            "sterile":false,
+            "markerInterference":false
+         }
+      ],
+      [
+         {
+            "genotype":"Y / + ; UAS TntG / UAS TntG ; tub Gal80ts / tub Gal80ts",
+            "warnings":[
+
+            ],
+            "phenotype":[
+               "Male"
+            ],
+            "lethal":false,
+            "sterile":false,
+            "markerInterference":false
+         },
+         {
+            "genotype":"Y / + ; UAS TntG / UAS TntG ; tub Gal80ts / VGN6341",
+            "warnings":[
+               "Warning! Recombination will occur betweeen tub Gal80ts and VGN6341"
+            ],
+            "phenotype":[
+               "Male"
+            ],
+            "lethal":true,
+            "sterile":false,
+            "markerInterference":false
+         },
+         {
+            "genotype":"Y / + ; UAS TntG / CyO ; tub Gal80ts / tub Gal80ts",
+            "warnings":[
+
+            ],
+            "phenotype":[
+               "Male"
+            ],
+            "lethal":true,
+            "sterile":false,
+            "markerInterference":false
+         },
+         {
+            "genotype":"Y / + ; UAS TntG / CyO ; tub Gal80ts / VGN6341",
+            "warnings":[
+               "Warning! Recombination will occur betweeen tub Gal80ts and VGN6341"
+            ],
+            "phenotype":[
+               "Male"
+            ],
+            "lethal":true,
+            "sterile":false,
+            "markerInterference":false
+         }
+      ],
+      [
+         {
+            "genotype":"Y / + ; CyO,UAS Dicer / UAS TntG ; tub Gal80ts / tub Gal80ts",
+            "warnings":[
+
+            ],
+            "phenotype":[
+               "Male"
+            ],
+            "lethal":true,
+            "sterile":false,
+            "markerInterference":false
+         },
+         {
+            "genotype":"Y / + ; CyO,UAS Dicer / UAS TntG ; tub Gal80ts / VGN6341",
+            "warnings":[
+               "Warning! Recombination will occur betweeen tub Gal80ts and VGN6341"
+            ],
+            "phenotype":[
+               "Male"
+            ],
+            "lethal":true,
+            "sterile":false,
+            "markerInterference":false
+         },
+         {
+            "genotype":"Y / + ; CyO,UAS Dicer / CyO ; tub Gal80ts / tub Gal80ts",
+            "warnings":[
+
+            ],
+            "phenotype":[
+               "Male",
+               "CyO"
+            ],
+            "lethal":true,
+            "sterile":false,
+            "markerInterference":false
+         },
+         {
+            "genotype":"Y / + ; CyO,UAS Dicer / CyO ; tub Gal80ts / VGN6341",
+            "warnings":[
+               "Warning! Recombination will occur betweeen tub Gal80ts and VGN6341"
+            ],
+            "phenotype":[
+               "Male",
+               "CyO"
+            ],
+            "lethal":true,
+            "sterile":false,
+            "markerInterference":false
+         }
+      ]
+   ]
+}
