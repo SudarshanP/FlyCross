@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css">
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 <script type="text/javascript" src="json/cross.json"></script>
+<script type="text/javascript" src="json/punnettColors.json"></script>
 <script type="text/javascript" src="js/coffee-script.js"></script>
 <script type="text/javascript" src="js/handlebars.js"></script>
 <script type="text/javascript" src="js/bootstrap-twipsy.js"></script>
@@ -38,15 +39,65 @@ handler = function(data) {
    {{/if}}
 </div>
 </script>
+
+<script id="flyPanelTpl" type="text/x-handlebars-template">
+<div>
+   {{#if lethal}}
+      <span class="label important">Lethal</span>
+   {{/if}}
+   {{#if sterile}}
+      <span class="label warning">Sterile</span>
+   {{/if}}
+   {{#if markerInterference}}
+      <span class="label notice">Interfering markers</span>
+   {{/if}}
+   <br/>
+   <span style="background-color:{{pColor}}">&nbsp;&nbsp;&nbsp;&nbsp;</span> Phenotype: {{phenotype}}<br/>
+   <span style="background-color:{{gColor}}">&nbsp;&nbsp;&nbsp;&nbsp;</span> Genotype: {{genotype}}<br/>
+   {{#if warnings}}
+      {{#each warnings}}
+         <B>{{this}}</B><br>
+      {{/each}}
+   {{/if}}
+</div>
+</script>
+
 <style>
 .vtext {
    widhth:20px;
 }
 .vvtext {
    width:1em;
-}				
-.puncell {
+}
+.punTbl {
+   margin:0px;
+   padding:0px;
+   border:0px;
+   border-top:0px;
+}
+.punRow {
+   margin:0px;
+   padding:0px;
+   border:0px;
+   border-top:0px;
+}
+.punCell {
+   margin:0px;
+   padding:0px;
+   padding-bottom:0px;
+   padding-top:0px;
+   padding-left:0px;
+   padding-right:0px;
+   border-top:0px;
+   border:0px;
    width:20px;
+}
+.pDiv {
+   padding:10px;
+   width:10px;height:10px;
+}
+.gDiv {
+   width:10px;height:10px;
 }
 .rot {
    width:300px;
@@ -57,10 +108,10 @@ handler = function(data) {
       <tr><td>{{#each fly2Axis}}</td><td class="vtext">#{{/each}}</td></tr>
 </script>
 <script id="punRowTpl" type="text/x-handlebars-template">
-      <tr><td>{{gamete}}{{#each flies}}</td><td align="center" class="puncell">{{#if warnings}}!{{/if}}&nbsp;{{/each}}</td></tr>
+      <tr class="punRow" ><td>{{gamete}}{{#each flies}}</td><td align="center" class="punCell"><div class="pDiv"><div class="gDiv"></div></div>{{/each}}</td></tr>
 </script>
 <script id="punTpl" type="text/x-handlebars-template">
-    <table border="2" id='punTable'>
+    <table class ="punTbl" id='punTable'>
         {{{hdr}}}
         {{#each rows}}{{{this}}}{{/each}}
     </table>
@@ -76,8 +127,8 @@ handler = function(data) {
 </script>
 
 <script type="text/coffeescript">
-window.gColors = ["#FF0000","#00FF00","#0000FF","#FF00FF","#00FFFF","#FFFF00","#70DB93","#5C3317","#9F5F9F","#B5A642","#D9D919","#A62A2A","#8C7853","#A67D3D","#5F9F9F","#D98719","#B87333","#FF7F00","#42426F","#5C4033","#2F4F2F","#4A766E","#4F4F2F","#9932CD","#871F78","#6B238E","#2F4F4F","#97694F","#7093DB","#855E42","#545454","#856363","#D19275","#8E2323","#F5CCB0","#238E23","#CD7F32","#DBDB70","#C0C0C0","#527F76","#93DB70","#215E21","#4E2F2F","#9F9F5F","#C0D9D9","#A8A8A8","#8F8FBD","#E9C2A6","#32CD32","#E47833","#8E236B","#32CD99","#3232CD","#6B8E23","#EAEAAE","#9370DB","#426F42","#7F00FF","#7FFF00","#70DBDB","#DB7093","#A68064","#2F2F4F","#23238E","#4D4DFF","#FF6EC7","#00009C","#EBC79E","#CFB53B","#FF7F00","#FF2400","#DB70DB","#8FBC8F","#BC8F8F","#EAADEA","#D9D9F3","#5959AB","#6F4242","#8C1717","#238E68","#6B4226","#8E6B23","#E6E8FA","#3299CC","#007FFF","#FF1CAE","#00FF7F","#236B8E","#38B0DE","#DB9370","#D8BFD8","#ADEAEA","#5C4033","#CDCDCD","#4F2F4F","#CC3299","#D8D8BF","#99CC32"]
-window.pColors = ["#99CC32","#D8D8BF","#CC3299","#4F2F4F","#CDCDCD","#5C4033","#ADEAEA","#D8BFD8","#DB9370","#38B0DE","#236B8E","#00FF7F","#FF1CAE","#007FFF","#3299CC","#E6E8FA","#8E6B23","#6B4226","#238E68","#8C1717","#6F4242","#5959AB","#D9D9F3","#EAADEA","#BC8F8F","#8FBC8F","#DB70DB","#FF2400","#FF7F00","#CFB53B","#EBC79E","#00009C","#FF6EC7","#4D4DFF","#23238E","#2F2F4F","#A68064","#DB7093","#70DBDB","#7FFF00","#7F00FF","#426F42","#9370DB","#EAEAAE","#6B8E23","#3232CD","#32CD99","#8E236B","#E47833","#32CD32","#E9C2A6","#8F8FBD","#A8A8A8","#C0D9D9","#9F9F5F","#4E2F2F","#215E21","#93DB70","#527F76","#C0C0C0","#DBDB70","#CD7F32","#238E23","#F5CCB0","#8E2323","#D19275","#856363","#545454","#855E42","#7093DB","#97694F","#2F4F4F","#6B238E","#871F78","#9932CD","#4F4F2F","#4A766E","#2F4F2F","#5C4033","#42426F","#FF7F00","#B87333","#D98719","#5F9F9F","#A67D3D","#8C7853","#A62A2A","#D9D919","#B5A642","#9F5F9F","#5C3317","#70DB93","#FFFF00","#00FFFF","#FF00FF","#0000FF","#00FF00","#FF0000"]
+#window.gColors = ["#FF0000","#00FF00","#0000FF","#FF00FF","#00FFFF","#FFFF00","#70DB93","#5C3317","#9F5F9F","#B5A642","#D9D919","#A62A2A","#8C7853","#A67D3D","#5F9F9F","#D98719","#B87333","#FF7F00","#42426F","#5C4033","#2F4F2F","#4A766E","#4F4F2F","#9932CD","#871F78","#6B238E","#2F4F4F","#97694F","#7093DB","#855E42","#545454","#856363","#D19275","#8E2323","#F5CCB0","#238E23","#CD7F32","#DBDB70","#C0C0C0","#527F76","#93DB70","#215E21","#4E2F2F","#9F9F5F","#C0D9D9","#A8A8A8","#8F8FBD","#E9C2A6","#32CD32","#E47833","#8E236B","#32CD99","#3232CD","#6B8E23","#EAEAAE","#9370DB","#426F42","#7F00FF","#7FFF00","#70DBDB","#DB7093","#A68064","#2F2F4F","#23238E","#4D4DFF","#FF6EC7","#00009C","#EBC79E","#CFB53B","#FF7F00","#FF2400","#DB70DB","#8FBC8F","#BC8F8F","#EAADEA","#D9D9F3","#5959AB","#6F4242","#8C1717","#238E68","#6B4226","#8E6B23","#E6E8FA","#3299CC","#007FFF","#FF1CAE","#00FF7F","#236B8E","#38B0DE","#DB9370","#D8BFD8","#ADEAEA","#5C4033","#CDCDCD","#4F2F4F","#CC3299","#D8D8BF","#99CC32"]
+#window.pColors = ["#99CC32","#D8D8BF","#CC3299","#4F2F4F","#CDCDCD","#5C4033","#ADEAEA","#D8BFD8","#DB9370","#38B0DE","#236B8E","#00FF7F","#FF1CAE","#007FFF","#3299CC","#E6E8FA","#8E6B23","#6B4226","#238E68","#8C1717","#6F4242","#5959AB","#D9D9F3","#EAADEA","#BC8F8F","#8FBC8F","#DB70DB","#FF2400","#FF7F00","#CFB53B","#EBC79E","#00009C","#FF6EC7","#4D4DFF","#23238E","#2F2F4F","#A68064","#DB7093","#70DBDB","#7FFF00","#7F00FF","#426F42","#9370DB","#EAEAAE","#6B8E23","#3232CD","#32CD99","#8E236B","#E47833","#32CD32","#E9C2A6","#8F8FBD","#A8A8A8","#C0D9D9","#9F9F5F","#4E2F2F","#215E21","#93DB70","#527F76","#C0C0C0","#DBDB70","#CD7F32","#238E23","#F5CCB0","#8E2323","#D19275","#856363","#545454","#855E42","#7093DB","#97694F","#2F4F4F","#6B238E","#871F78","#9932CD","#4F4F2F","#4A766E","#2F4F2F","#5C4033","#42426F","#FF7F00","#B87333","#D98719","#5F9F9F","#A67D3D","#8C7853","#A62A2A","#D9D919","#B5A642","#9F5F9F","#5C3317","#70DB93","#FFFF00","#00FFFF","#FF00FF","#0000FF","#00FF00","#FF0000"]
 
 makeLegend = (title,arr,colors) ->
    legendRowTpl = Handlebars.compile($("#legendRowTpl").html())
@@ -118,16 +169,22 @@ window.inputMode = -> $("#output").hide();$("#input").show()
 window.outputMode = -> $("#input").hide();$("#output").show()
 
 colorify = (flyMatrix) ->
+   flyPanelTpl = Handlebars.compile($("#flyPanelTpl").html())
    $("#punTable").find("tr").each (i) -> 
       $(this).find("td").each (j) -> 
          if i && j
             fly = flyMatrix[i-1][j-1]
+            fly.gColor=gColors[fly.gLegendIdx]
+            fly.pColor=pColors[fly.pLegendIdx]
             $(this).data({"i":i,"j":j,"fly":fly})
             $(this).attr({"id":"fly_"+(i-1)+"_"+(j-1)})
-            $(this).css("background-color":pColors[fly.pLegendIdx]).css("color":gColors[fly.gLegendIdx])
+            $(this).find("div").css("background-color":fly.pColor).find("div").css("background-color":fly.gColor)
+            #$(this).html($("<div><div></div></div>"))
+            #$(this).css("background-color":pColors[fly.pLegendIdx]).css("color":gColors[fly.gLegendIdx])
             #alert window.pColors.length+":"+fly.pLegendIdx+":"+pColors[fly.pLegendIdx]
             $(this).hover ->
-               $("#punHoverMsg").html $(this).data().i+":"+$(this).data().j+$(this).data().fly.genotype+":"+$(this).attr('id')+" | GIdx:"+$(this).data().fly.gLegendIdx+" | PIdx:"+$(this).data().fly.pLegendIdx+"<BR>Messages: "+$(this).data().fly.warnings
+               $("#punHoverMsg").html flyPanelTpl(fly)
+# $(this).data().i+":"+$(this).data().j+$(this).data().fly.genotype+":"+$(this).attr('id')+" | GIdx:"+$(this).data().fly.gLegendIdx+" | PIdx:"+$(this).data().fly.pLegendIdx+"<BR>Messages: "+$(this).data().fly.warnings
 
 window.showPunnett = (pun) ->
    hdrTpl = Handlebars.compile($("#punHdrTpl").html())
