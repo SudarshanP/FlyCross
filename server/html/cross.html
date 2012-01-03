@@ -60,7 +60,7 @@ handler = function(data) {
 
 </style>
 <script id="punHdrTpl" type="text/x-handlebars-template">
-      <tr><td>{{#each fly2Axis}}</td><td class="vtext">#{{/each}}</td></tr>
+      <tr><td>{{#each fly2Axis}}</td><td style="padding-bottom:5px;height:100px; vertical-align:bottom;"><div class ="vert">{{this}}</div>{{/each}}</td></tr>
 </script>
 <script id="punRowTpl" type="text/x-handlebars-template">
       <tr class="punRow" ><td>{{gamete}}{{#each flies}}</td><td align="center" class="punCell"><div class="pDiv"><div class="gDiv"></div></div>{{/each}}</td></tr>
