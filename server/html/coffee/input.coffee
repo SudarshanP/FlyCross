@@ -138,34 +138,14 @@ window.parseFly = (f,gender=null) ->
 #   else
 #      alert JSON.stringify(fly)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-window.parseDad = -> 
-   m = parseFly($('#dad').val(),"M")
-   #alert(JSON.stringify(m))
-   $('#oDad').html(geneHtml(m.fly))
-   window.punnettReq["father"] = m["fly"]
-window.parseMom = -> 
-   f = parseFly($('#mom').val(),"F")
-   $('#oMom').html(geneHtml(f.fly))
-   window.punnettReq["mother"] = f["fly"]
-window.parseKid = -> 
-   k = parseFly($('#kid').val())
-   $('#oKid').html(geneHtml(k.fly))
-   window.punnettReq["child"] = k["fly"]
+window.validateFly = (id,sex) ->
+   f = parseFly($("#"+id).val(),sex)
+   if f.error
+      alert f.error
+   else
+      $('#o'+id).html(geneHtml(f.fly))
+      window.punnettReq[id] = f.fly
+      
 window.parseBalancers = ->
    window.punnettReq["balancers"] = parseCommaSepGenes($('#balancers').val())
 window.parseMarkers = ->
@@ -173,21 +153,21 @@ window.parseMarkers = ->
 window.parseConstraints = ->
    #alert("makePunnet")
    window.punnettReq["constraints"] = parseConstraintList($('#constraints').val())
+
 window.loadDummy = -> 
    data = window[$("#crossNo").val()]
    #alert JSON.stringify()
-   $('#dad').val(data["father"])
-   $('#mom').val(data["mother"])
-   $('#kid').val(data["child"])
+   $('#father').val(data["father"])
+   $('#mother').val(data["mother"])
+   $('#child').val(data["child"])
    $('#balancers').val(data["balancers"])
    $('#markers').val(data["markers"])
    $('#constraints').val(data["constraints"])
 
-window.makePunnett = ->
-   
-   parseDad()
-   parseMom()
-   parseKid()   
+window.makePunnett = ->  
+   validateFly("father","M");
+   validateFly("mother","F");
+   validateFly("child");
    parseBalancers()
    parseMarkers()
    parseConstraints()
@@ -206,3 +186,5 @@ geneHtml = (fly) ->
       htmlChrPairs.push("<td style=\"text-align:center\"><div>"+htmlChrA+"</div>"+hr+"<div>"+htmlChrB+"</div></td>")
    htmlGenotype="<div><table><tr>"+htmlChrPairs.join(semicolon)+"</tr></table></div>"
    return htmlGenotype
+   
+

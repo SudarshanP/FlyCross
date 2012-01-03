@@ -87,6 +87,9 @@ window.outputMode = -> $("#input").hide();$("#output").show()
 $ ->
    window.punnettReq = {}
    inputMode()
+   $("#father").blur -> validateFly("father","M")
+   $("#mother").blur -> validateFly("mother","F")
+   $("#child").blur -> validateFly("child")
 </script>
 
 </head>
@@ -97,12 +100,12 @@ Dummy test cross: <input type='text' id='crossNo' value='cross2'><input type='su
 <table>
   <tr>
     <td valign='top'>
-       Male: <input type='text' id='dad' value=""> <input type='submit' value='Ok' onClick='parseDad(); return false'  class="btn primary mini"/><br>
-       <div id='oDad'></div>
-       Female: <input type='text' id='mom' value=''> <input type='submit' value='Ok' onClick='parseMom(); return false'  class="btn primary mini"/><br>
-       <div id='oMom'></div>
-       Progeny: <input type='text' id='kid' value=''> <input type='submit' value='Ok' onClick='parseKid(); return false'  class="btn primary mini"/><br>
-       <div id="oKid"></div>
+       Male: <input type='text' id='father' value=""> <!--input type='submit' value='Ok' onClick='validateFly("father","M"); return false'  class="btn primary mini"/--><br>
+       <div id='ofather'></div>
+       Female: <input type='text' id='mother' value=''> <!--input type='submit' value='Ok' onClick='validateFly("mother","F"); return false'  class="btn primary mini"/--><br>
+       <div id='omother'></div>
+       Progeny: <input type='text' id='child' value=''> <!--input type='submit' value='Ok' onClick='validateFly("child"); return false'  class="btn primary mini"/--><br>
+       <div id="ochild"></div>
        Balancers: <input type='text' id='balancers' value=''> <input type='submit' value='Ok' onClick='parseBalancers(); return false'  class="btn primary mini"/><br>
        <div id="oBalancers"></div>
        Markers: <input type='text' id='markers' value=''> <input type='submit' value='Ok' onClick='parseMarkers(); return false'  class="btn primary mini"/><br>
