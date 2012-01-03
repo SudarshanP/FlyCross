@@ -4,18 +4,18 @@ parseErr = (msg,frag) -> {"error":msg,"frag":frag}
 
 checkStructure = (fly) ->
    if fly.length != 3
-      return parseErr("3 pairs of chromosomes are needed",JSON.stringify(fly))
+      return parseErr("3 pairs of chromosomes are needed: ",JSON.stringify(fly))
    for pair in fly
       if pair.length > 2 
-         return parseErr("More than 2 strands in",JSON.stringify(pair))
+         return parseErr("More than 2 chromosomes in the pair: ",JSON.stringify(pair))
       if pair.length == 0 
-         return parseErr("Missing chromosomes",JSON.stringify(fly))
+         return parseErr("Missing chromosomes: ",JSON.stringify(fly))
       for chromosome in pair
          if chromosome.length == 0 
-             return parseErr("No genes on chromosomes",JSON.stringify(pair))
+             return parseErr("No genes on chromosomes: ",JSON.stringify(pair))
          for gene in chromosome
              if gene == ""
-                 return parseErr("No genes on chromosomes",JSON.stringify(fly))    
+                 return parseErr("No genes on chromosomes: ",JSON.stringify(fly))    
       pair.push(pair[0]) if pair.length == 1
     return fly
 
@@ -71,7 +71,7 @@ window.parseConstraintList = (s) ->
       if row.length>0
          i = row.lastIndexOf(":")
          if i == -1
-            return parseErr("Constraint fmt is:g1,g2...gn:tag Eg: Crlo,Crlo:L") 
+            return parseErr("Constraint format is: gene1,gene2,...,geneN:tag Eg: CyO,CyO:l") 
          genes = row.substr(0,i)
          tag = row.substr(i+1)
          ret.push [parseCommaSepGenes(genes),tag]
@@ -143,22 +143,52 @@ window.validateFly = (id,sex) ->
    if f.error
       $("#"+id+"Box").removeClass("success")
       $("#"+id+"Box").addClass("error")
-      $("#"+id+"Msg").html("Error")
-      $('#o'+id).html("")
+      #$("#"+id+"Msg").html("Error")
+      $('#o'+id).html(f.error)
+      window.punnettReq[id] = f.error
    else
       $("#"+id+"Box").removeClass("error")
       $("#"+id+"Box").addClass("success")
-      $("#"+id+"Msg").html("")
+      #$("#"+id+"Msg").html("")
       $('#o'+id).html(geneHtml(f.fly))
       window.punnettReq[id] = f.fly
       
 window.parseBalancers = ->
-   window.punnettReq["balancers"] = parseCommaSepGenes($('#balancers').val())
+   genes=parseCommaSepGenes($('#balancers').val())
+   if genes.error
+      $("#balancersBox").removeClass("success")
+      $("#balancersBox").addClass("error")
+      $("#obalancers").html(genes.error)
+   else
+      $("#balancersBox").removeClass("error")
+      $("#balancersBox").addClass("success")
+      $("#obalancers").html("")
+   window.punnettReq["balancers"] = genes
+
 window.parseMarkers = ->
-   window.punnettReq["markers"] = parseCommaSepGenes($('#markers').val())
+   genes=parseCommaSepGenes($('#markers').val())
+   if genes.error
+      $("#markersBox").removeClass("success")
+      $("#markersBox").addClass("error")
+      $("#omarkers").html(genes.error)
+   else
+      $("#markersBox").removeClass("error")
+      $("#markersBox").addClass("success")
+      $("#omarkers").html("")
+   window.punnettReq["markers"] = genes
+
 window.parseConstraints = ->
    #alert("makePunnet")
-   window.punnettReq["constraints"] = parseConstraintList($('#constraints').val())
+   constraints=parseConstraintList($('#constraints').val())
+   if constraints.error
+      $("#constraintsBox").removeClass("success")
+      $("#constraintsBox").addClass("error")
+      $("#constraintsMsg").html(constraints.error)
+   else
+      $("#constraintsBox").addClass("success")
+      $("#constraintsBox").removeClass("error")
+      $("#constraintsMsg").html("")
+   window.punnettReq["constraints"] = constraints
 
 window.loadDummy = -> 
    data = window[$("#crossNo").val()]
@@ -170,7 +200,7 @@ window.loadDummy = ->
    $('#markers').val(data["markers"])
    $('#constraints').val(data["constraints"])
 
-window.makePunnett = ->  
+window.makePunnettRequest = ->  
    validateFly("father","M");
    validateFly("mother","F");
    validateFly("child");
@@ -178,6 +208,10 @@ window.makePunnett = ->
    parseMarkers()
    parseConstraints()
    
+   for id,val of window.punnettReq
+      if val.error
+         alert ("First clear all the highlighted errors!")
+         return
    #alert JSON.stringify(window.punnettReq)
    server.post("/checkCross",JSON.stringify(window.punnettReq),handler)
 

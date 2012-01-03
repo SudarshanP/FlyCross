@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
-<title>Title Goes Here</title>
+<title>FlyCrosser</title>
 <link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css">
 <link rel="stylesheet" href="css/cross.css">
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
@@ -90,6 +90,9 @@ $ ->
    $("#father").blur -> validateFly("father","M")
    $("#mother").blur -> validateFly("mother","F")
    $("#child").blur -> validateFly("child")
+   $("#balancers").blur -> parseBalancers()
+   $("#markers").blur -> parseMarkers()
+   $("#constraints").blur -> parseConstraints()
 </script>
 
 </head>
@@ -101,34 +104,49 @@ Dummy test cross: <input type='text' id='crossNo' value='cross2'><input type='su
 <div class="row">
      <div class='span8'>
        <div id="fatherBox" class="clearfix"> 
-             <label for="errorInput">Male</label><!--span>Male</span--> 
-             <input id="father" name="xlInput" size="30" type="text" /><span id="fatherMsg" class="help-inline"></span>
+          <label for="errorInput">Male</label> 
+          <input id="father" name="xlInput" size="30" type="text" />
+          <div align="center" id='ofather'></div>
        </div><!-- /clearfix --> 
-       <div align="center" id='ofather'></div>
        <div id="motherBox" class="clearfix"> 
-             <label for="errorInput">Female</label> 
-             <input id="mother" name="xlInput" size="30" type="text" /><span id="motherMsg" class="help-inline"></span>
+          <label for="errorInput">Female</label> 
+          <input id="mother" name="xlInput" size="30" type="text" />
+          <div align="center" id='omother'></div>
        </div><!-- /clearfix --> 
-       <div align="center" id='omother'></div>
        <div id="childBox" class="clearfix"> 
-             <label for="errorInput">Progeny</label> 
-             <input id="child" name="xlInput" size="30" type="text" /><span id="childMsg" class="help-inline"></span>
+          <label for="errorInput">Progeny</label> 
+          <input id="child" name="xlInput" size="30" type="text" />
+          <div align="center" id='ochild'></div>
        </div><!-- /clearfix --> 
-       <div align="center" id='ochild'></div>
 
-       Balancers: <input type='text' id='balancers' value=''> <input type='submit' value='Ok' onClick='parseBalancers(); return false'  class="btn primary mini"/><br>
-       <div id="oBalancers"></div>
-       Markers: <input type='text' id='markers' value=''> <input type='submit' value='Ok' onClick='parseMarkers(); return false'  class="btn primary mini"/><br>
-       <div id="oMarkers"></div>
+       <div id="balancersBox" class="clearfix"> 
+          <label for="errorInput">Balancers</label> 
+          <input id="balancers" name="xlInput" size="30" type="text" />
+          <div align="center" id="obalancers"></div>
+       </div><!-- /clearfix --> 
+       <div id="markersBox" class="clearfix"> 
+          <label for="errorInput">Markers</label> 
+          <input id="markers" name="xlInput" size="30" type="text" />
+          <div align="center" id="omarkers"></div>
+       </div><!-- /clearfix --> 
      </div>
+
      <div class='span8'>
-       <h2>Constraints</h2>
-       <textarea cols=50 rows=20 id='constraints'></textarea>
+        <div id ="constraintsBox" class="clearfix"> 
+           <div><H3>Constraints</H3></div> 
+           <div> 
+              <textarea class="xlarge" id="constraints" name="textarea2" rows="10"></textarea> 
+              <span id="constraintsMsg" class="help-block">
+                 Constraint format is: gene1,gene2,...,geneN:tag Eg: CyO,CyO:l<br/>
+                 Supported tags:<br/> l-lethal<br/> rl-rescues lethality<br/> s-sterile<br/> rs-rescues sterility<br/> i-interfering markers
+              </span> 
+           </div> 
+        </div><!-- /clearfix -->
      </div>
 </div>
 </form>
 
-<input type='button' value='Make Punnett Square' onClick='makePunnett();return false' class="btn primary"/>
+<input type='button' value='Make Punnett Square' onClick='makePunnettRequest();return false' class="btn primary"/><span id="oMakePunnettBtn"></span>
 </div>
 <div id='response'></div>
 <div id="output">
