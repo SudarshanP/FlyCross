@@ -97,26 +97,37 @@ $ ->
 
 <div id="input">
 Dummy test cross: <input type='text' id='crossNo' value='cross2'><input type='submit' value='Load' onClick='loadDummy();return false'  class="btn primary"/>
-<table>
-  <tr>
-    <td valign='top'>
-       Male: <input type='text' id='father' value=""> <!--input type='submit' value='Ok' onClick='validateFly("father","M"); return false'  class="btn primary mini"/--><br>
-       <div id='ofather'></div>
-       Female: <input type='text' id='mother' value=''> <!--input type='submit' value='Ok' onClick='validateFly("mother","F"); return false'  class="btn primary mini"/--><br>
-       <div id='omother'></div>
-       Progeny: <input type='text' id='child' value=''> <!--input type='submit' value='Ok' onClick='validateFly("child"); return false'  class="btn primary mini"/--><br>
-       <div id="ochild"></div>
+<form>
+<div class="row">
+     <div class='span8'>
+       <div id="fatherBox" class="clearfix"> 
+             <label for="errorInput">Male</label><!--span>Male</span--> 
+             <input id="father" name="xlInput" size="30" type="text" /><span id="fatherMsg" class="help-inline"></span>
+       </div><!-- /clearfix --> 
+       <div align="center" id='ofather'></div>
+       <div id="motherBox" class="clearfix"> 
+             <label for="errorInput">Female</label> 
+             <input id="mother" name="xlInput" size="30" type="text" /><span id="motherMsg" class="help-inline"></span>
+       </div><!-- /clearfix --> 
+       <div align="center" id='omother'></div>
+       <div id="childBox" class="clearfix"> 
+             <label for="errorInput">Progeny</label> 
+             <input id="child" name="xlInput" size="30" type="text" /><span id="childMsg" class="help-inline"></span>
+       </div><!-- /clearfix --> 
+       <div align="center" id='ochild'></div>
+
        Balancers: <input type='text' id='balancers' value=''> <input type='submit' value='Ok' onClick='parseBalancers(); return false'  class="btn primary mini"/><br>
        <div id="oBalancers"></div>
        Markers: <input type='text' id='markers' value=''> <input type='submit' value='Ok' onClick='parseMarkers(); return false'  class="btn primary mini"/><br>
        <div id="oMarkers"></div>
-     </td>
-     <td valign='top'>
+     </div>
+     <div class='span8'>
        <h2>Constraints</h2>
        <textarea cols=50 rows=20 id='constraints'></textarea>
-     </td>
-   <tr>
-</table>
+     </div>
+</div>
+</form>
+
 <input type='button' value='Make Punnett Square' onClick='makePunnett();return false' class="btn primary"/>
 </div>
 <div id='response'></div>

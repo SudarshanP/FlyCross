@@ -141,8 +141,14 @@ window.parseFly = (f,gender=null) ->
 window.validateFly = (id,sex) ->
    f = parseFly($("#"+id).val(),sex)
    if f.error
-      alert f.error
+      $("#"+id+"Box").removeClass("success")
+      $("#"+id+"Box").addClass("error")
+      $("#"+id+"Msg").html("Error")
+      $('#o'+id).html("")
    else
+      $("#"+id+"Box").removeClass("error")
+      $("#"+id+"Box").addClass("success")
+      $("#"+id+"Msg").html("")
       $('#o'+id).html(geneHtml(f.fly))
       window.punnettReq[id] = f.fly
       
