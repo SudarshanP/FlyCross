@@ -238,20 +238,19 @@ window.showPunnett = (pun) ->
    outputMode()
 </script>
 <script type="text/coffeescript">
-test = ->
+geneHtml = (fly) ->
    chromosome = Handlebars.compile($("#chromosomeTpl").html())
-   dummyFly=[[["abc","abc","abc"],["def","ghi"]],[["abc","abc"],["def","lmn","ghi"]],[["abc"],["def"]]]
    hr="<div style=\"margin:5px;height:2px;background-color:black\"></div>"
    semicolon="<td style=\"vertical-align:middle\"><H3>;</H3></td>"
    htmlChrPairs=[]
-   for chrPair in dummyFly
+   for chrPair in fly
       htmlChrA=chromosome(chrPair[0])
       htmlChrB=chromosome(chrPair[1])
       htmlChrPairs.push("<td style=\"text-align:center\"><div>"+htmlChrA+"</div>"+hr+"<div>"+htmlChrB+"</div></td>")
    htmlGenotype="<div><table><tr>"+htmlChrPairs.join(semicolon)+"</tr></table></div>"
-   #alert htmlGenotype
-   #$("#constraints").val(htmlGenotype+"~~~"+$("#src").html())
-   $("#testTpl").html htmlGenotype
+   return htmlGenotype
+ 
+
 $ ->
    window.punnettReq = {}
    source   = $("#entry-template").html()
@@ -262,19 +261,18 @@ $ ->
    #alert(questionMarks)
    $("#oDad").html(questionMarks);$("#oMom").html(questionMarks);$("#oKid").html(questionMarks)
    inputMode()
-   test()
 window.parseDad = -> 
    m = parseFly($('#dad').val(),"M")
    #alert(JSON.stringify(m))
-   $('#oDad').html(template(m))
+   $('#oDad').html(geneHtml(m.fly))
    window.punnettReq["father"] = m["fly"]
 window.parseMom = -> 
    f = parseFly($('#mom').val(),"F")
-   $('#oMom').html(template(f))
+   $('#oMom').html(geneHtml(f.fly))
    window.punnettReq["mother"] = f["fly"]
 window.parseKid = -> 
    k = parseFly($('#kid').val())
-   $('#oKid').html(template(k))
+   $('#oKid').html(geneHtml(k.fly))
    window.punnettReq["child"] = k["fly"]
 window.parseBalancers = ->
    window.punnettReq["balancers"] = parseCommaSepGenes($('#balancers').val())
@@ -308,25 +306,7 @@ window.makePunnett = ->
 
 </head>
 <body>
-<div class="row">
-   <div id="dst" class="span8">
-       <div id="testTpl">    
-       
-       </div>
-   </div>   
-</div>
 
-<div class="row">
-   <div  id="src" class="span8">
-       <table><tr>
-          <td style="text-align:center"><div><span class="gene">abc</span><span class="gene">abc</span><span class="gene">abc</span></div><div style="margin:5px;height:2px;background-color:black"></div><div style="text-align:center"><span class="gene">abc</span></div></td>
-          <td style="vertical-align:middle"><H3>;</H3></td>
-          <td style="text-align:center"><div>abc</div><div style="height:2px;background-color:black"></div><div style="text-align:center">abc</div></td>
-          <td style="vertical-align:middle"><H3>;</H3></td>
-          <td style="text-align:center"><div>abc</div><div style="height:2px;background-color:black"></div><div style="text-align:center">abc</div></td>
-       </tr></table>
-   </div>   
-</div>
 <div id="input">
 Dummy test cross: <input type='text' id='crossNo' value='cross2'><input type='submit' value='Load' onClick='loadDummy();return false'  class="btn primary"/>
 <table>
