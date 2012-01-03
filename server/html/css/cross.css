@@ -1,0 +1,68 @@
+table {
+   width:auto;
+}
+
+table th, table td, table tr {
+   text-align: left;
+   border:0px;
+   padding:3px;
+}
+hr {
+   padding:0px;
+   margin:1px;
+}
+.vtext {
+   widhth:20px;
+}
+.vvtext {
+   width:1em;
+}
+.punTbl {
+   margin:0px;
+   padding:0px;
+   border:0px;
+   border-top:0px;
+}
+.punRow {
+   margin:0px;
+   padding:0px;
+   border:0px;
+   border-top:0px;
+}
+.punCell {
+   margin:0px;
+   padding:0px;
+   padding-bottom:0px;
+   padding-top:0px;
+   padding-left:0px;
+   padding-right:0px;
+   border-top:0px;
+   border:0px;
+   width:20px;
+}
+.pDiv {
+   padding:10px;
+   width:10px;height:10px;
+}
+.gDiv {
+   width:10px;height:10px;
+}
+.rot {
+   width:300px;
+   -moz-transform:rotate(-90deg);
+}
+.gene {
+   background-color:green;
+   margin-top:5px;
+   margin-bottom:5px;
+   margin-left:2px;
+   margin-right:2px;
+   border-radius:3px;
+   -webkit-border-radius: 3px;
+   -moz-border-radius: 3px;
+   padding-top: 1px;
+   padding-right: 3px;
+   padding-bottom: 2px;
+   padding-left: 3px;
+   color:white
+}
