@@ -22,23 +22,6 @@ handler = function(data) {
 }
 
 </script>
-<script id="entry-template" type="text/x-handlebars-template">
-<div>
-  {{#if error}}
-     <B>{{error}}</B><br>{{frag}}
-  {{else}}
-     <table border="2">
-     {{#each fly}}<tr>
-        {{#each this}}<td>
-            {{#each this}}<span style="padding:10px;color:green;">
-                {{this}}
-            </span>{{/each}}
-        </td>{{/each}}
-     </tr>{{/each}}
-     </table>
-   {{/if}}
-</div>
-</script>
 
 <script id="chromosomeTpl" type="text/x-handlebars-template">
    {{#each this}}
@@ -253,13 +236,6 @@ geneHtml = (fly) ->
 
 $ ->
    window.punnettReq = {}
-   source   = $("#entry-template").html()
-   window.template = Handlebars.compile(source)
-   #context = {"fly": [[["A","a"],["B","b"],["C","c"]],[["D","d"],["E","e"]]]}
-   #alert template(context)
-   questionMarks = template({"fly": [[["?"],["?"]],[["?"],["?"]],[["?"],["?"]]]})
-   #alert(questionMarks)
-   $("#oDad").html(questionMarks);$("#oMom").html(questionMarks);$("#oKid").html(questionMarks)
    inputMode()
 window.parseDad = -> 
    m = parseFly($('#dad').val(),"M")
