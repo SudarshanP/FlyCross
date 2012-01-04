@@ -118,23 +118,7 @@ class Fly():
 		if not self.gender:
 			self.gender='Female'
 
-		# # Find Phenotype
-		self.phenotype=[self.gender]
-		for chrA,chrB in self.genotype:
-			self.phenotype+=filter(lambda x:x in chrA.recMarkers,chrB.recMarkers)#intersection of recMarkers
-			self.phenotype+=chrA.domMarkers+filter(lambda x:x not in chrA.domMarkers,chrB.domMarkers)#union of domMarkers
-
-		# # Find genoHash and phenoHash
-		self.flyHash=genoHash(self.genotype)
-		self.phenoHash=sorted(self.phenotype)
-
-		# # Find gametes
-		chrList=[]
-		for chrA,chrB in self.genotype:
-			if chrA.cHash==chrB.cHash:chrList.append([chrA])
-			else:chrList.append([chrA,chrB])
-		self.gametes=list(product(*chrList))
-
+		# # function to find lethality, sterility and markerInterference
 		def checkConstraint(causerList,rescuerList):
 			flyGeneDict=listToDict(self.allGenes)
 			for i in range(len(causerList)):
@@ -152,6 +136,26 @@ class Fly():
 		self.lethal=checkConstraint(lList,rlList)
 		self.sterile=checkConstraint(sList,rsList)
 		self.markerInterference=checkConstraint(iList,riList)
+
+		# # Find Phenotype
+		if self.lethal: self.phenotype=['lethal']
+		else:
+			self.phenotype=[self.gender]
+			for chrA,chrB in self.genotype:
+				self.phenotype+=filter(lambda x:x in chrA.recMarkers,chrB.recMarkers)#intersection of recMarkers
+				self.phenotype+=chrA.domMarkers+filter(lambda x:x not in chrA.domMarkers,chrB.domMarkers)#union of domMarkers
+
+		# # Find genoHash and phenoHash
+		self.flyHash=genoHash(self.genotype)
+		self.phenoHash=sorted(self.phenotype)
+
+		# # Find gametes
+		chrList=[]
+		for chrA,chrB in self.genotype:
+			if chrA.cHash==chrB.cHash:chrList.append([chrA])
+			else:chrList.append([chrA,chrB])
+		self.gametes=list(product(*chrList))
+
 
 	def __str__(self):
 		return " ; ".join([str(chromosomeA)+' / '+str(chromosomeB) for chromosomeA,chromosomeB in self.genotype])
