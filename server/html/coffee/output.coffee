@@ -41,7 +41,10 @@ colorify = (flyMatrix) ->
          if i && j
             fly = flyMatrix[i-1][j-1]
             fly.gColor=gColors[fly.gLegendIdx]
-            fly.pColor=pColors[fly.pLegendIdx]
+            if fly.lethal
+               fly.pColor=lethalColor
+            else
+               fly.pColor=pColors[fly.pLegendIdx]
             $(this).data({"i":i,"j":j,"fly":fly})
             $(this).attr({"id":"fly_"+(i-1)+"_"+(j-1)})
             $(this).find("div").css("background-color":fly.pColor).find("div").css("background-color":fly.gColor)
