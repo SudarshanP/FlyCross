@@ -57,7 +57,7 @@ hr {
    height:10px;
 }
 .gene {
-   background-color:green;
+   background-color:#b8d8ed;
    margin-top:5px;
    margin-bottom:5px;
    margin-left:2px;
@@ -69,17 +69,18 @@ hr {
    padding-right: 3px;
    padding-bottom: 2px;
    padding-left: 3px;
-   color:white
-}
-.punCellHoveredUnequal {
-   border-color:#ff8888
+   color:#4444ff;
+   font-weight:bold;
 }
 .punCellHoveredEqual {
-   border-color:#8888ff
+   border-color:#aaaaff;
+}
+.punCellHoveredUnequal {
+   border-color:#ffaaaa;
 }
 .punCellClickedEqual {
-   border-color:#88ff88
+   border-color:#6666ff;
 }
 .punCellClickedUnequal {
-   border-color:#88ffff
+   border-color:#ff6666;
 }
