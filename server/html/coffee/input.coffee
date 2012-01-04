@@ -133,13 +133,13 @@ window.validateFly = (id,sex) ->
    if f.error
       $("#"+id+"Box").removeClass("success")
       $("#"+id+"Box").addClass("error")
-      #$("#"+id+"Msg").html("Error")
-      $('#o'+id).html(f.error)
+      $("#"+id+"Msg").html(f.error)
+      $('#o'+id).html("")
       window.punnettReq[id] = {"error":f.error}
    else
       $("#"+id+"Box").removeClass("error")
       $("#"+id+"Box").addClass("success")
-      #$("#"+id+"Msg").html("")
+      $("#"+id+"Msg").html("")
       $('#o'+id).html(geneHtml(f.fly))
       window.punnettReq[id] = f.fly
       
@@ -148,11 +148,11 @@ window.parseBalancers = ->
    if genes.error
       $("#balancersBox").removeClass("success")
       $("#balancersBox").addClass("error")
-      $("#obalancers").html(genes.error)
+      $("#balancersMsg").html(genes.error)
    else
       $("#balancersBox").removeClass("error")
       $("#balancersBox").addClass("success")
-      $("#obalancers").html("")
+      $("#balancersMsg").html("")
    window.punnettReq["balancers"] = genes
 
 window.parseMarkers = ->
@@ -160,11 +160,11 @@ window.parseMarkers = ->
    if genes.error
       $("#markersBox").removeClass("success")
       $("#markersBox").addClass("error")
-      $("#omarkers").html(genes.error)
+      $("#markersMsg").html(genes.error)
    else
       $("#markersBox").removeClass("error")
       $("#markersBox").addClass("success")
-      $("#omarkers").html("")
+      $("#markersMsg").html("")
    window.punnettReq["markers"] = genes
 
 window.parseConstraints = ->

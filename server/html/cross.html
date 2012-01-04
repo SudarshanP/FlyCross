@@ -103,28 +103,32 @@ Dummy test cross: <input type='text' id='crossNo' value='cross2'><input type='su
        <div id="fatherBox" class="clearfix"> 
           <label for="errorInput">Male&nbsp;&nbsp;&nbsp;</label> 
           <input id="father" name="xlInput" size="30" type="text" />
+          <span id="fatherMsg" align="center" class="help-block"></span> 
           <div align="center" id='ofather'></div>
        </div><!-- /clearfix --> 
        <div id="motherBox" class="clearfix"> 
           <label for="errorInput">Female&nbsp;&nbsp;&nbsp;</label> 
           <input id="mother" name="xlInput" size="30" type="text" />
+          <span id="motherMsg" align="center" class="help-block"></span> 
           <div align="center" id='omother'></div>
        </div><!-- /clearfix --> 
        <div id="childBox" class="clearfix"> 
           <label for="errorInput">Progeny&nbsp;&nbsp;&nbsp;</label> 
           <input id="child" name="xlInput" size="30" type="text" />
+          <span id="childMsg" align="center" class="help-block"></span> 
           <div align="center" id='ochild'></div>
        </div><!-- /clearfix --> 
 
        <div id="balancersBox" class="clearfix"> 
           <label for="errorInput">Balancers&nbsp;&nbsp;&nbsp;</label> 
           <input id="balancers" name="xlInput" size="30" type="text" />
-          <div align="center" id="obalancers"></div>
+          <span id="balancersMsg" align="center" class="help-block"></span> 
        </div><!-- /clearfix --> 
        <div id="markersBox" class="clearfix"> 
           <label for="errorInput">Markers&nbsp;&nbsp;&nbsp;</label> 
           <input id="markers" name="xlInput" size="30" type="text" />
-          <div align="center" id="omarkers"></div>
+          <span id="markersMsg" align="center" class="help-block"></span> 
+          <!--div align="center" id="omarkers"></div-->
        </div><!-- /clearfix --> 
      </div>
 
@@ -133,11 +137,15 @@ Dummy test cross: <input type='text' id='crossNo' value='cross2'><input type='su
            <div><H3>Constraints</H3></div> 
            <div> 
               <textarea class="xlarge" id="constraints" name="textarea2" rows="10"></textarea> 
-              <span id="constraintsMsg" class="help-block">
-              </span> 
+              <span id="constraintsMsg" class="help-block"></span> 
               <span>
                  Constraint format is: gene1,gene2,...,geneN:tag Eg: CyO,CyO:l<br/>
-                 Supported tags:<br/> l-lethal<br/> rl-rescues lethality<br/> s-sterile<br/> rs-rescues sterility<br/> i-interfering markers
+                 Supported tags:<br/>
+                 l-lethal<br/>
+                 rl-rescues lethality<br/>
+                 s-sterile<br/>
+                 rs-rescues sterility<br/>
+                 i-interfering markers
               </span>
            </div> 
         </div><!-- /clearfix -->
