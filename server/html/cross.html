@@ -34,7 +34,7 @@ handler = function(data) {
 
 
 <script id="flyPanelTpl" type="text/x-handlebars-template">
-<div>
+<div style="border-style:solid; border-color:#8888aa; padding:5px;">
    {{#if lethal}}
       <span class="label important">Lethal</span>
    {{/if}}
@@ -45,11 +45,17 @@ handler = function(data) {
       <span class="label notice">Interfering markers</span>
    {{/if}}
    <br/>
-   <span style="background-color:{{pColor}}">&nbsp;&nbsp;&nbsp;&nbsp;</span> Phenotype: {{phenotype}}<br/>
-   <span style="background-color:{{gColor}}">&nbsp;&nbsp;&nbsp;&nbsp;</span> Genotype: {{genotype}}<br/>
+   <span style="background-color:{{pColor}}">&nbsp;&nbsp;&nbsp;&nbsp;</span>Phenotype: {{phenotype}}<br/>
+   <span style="background-color:{{gColor}}">&nbsp;&nbsp;&nbsp;&nbsp;</span>Genotype: {{genotype}}<br/>
    {{#if warnings}}
       {{#each warnings}}
-         <B>{{this}}</B><br>
+         <B>{{this}}</B><br/>
+      {{/each}}
+   {{/if}}
+   {{#if clashingGenotypes}}
+      <span style="color:#880000"><B>Clashing Genotypes: </B></span><br/>
+      {{#each clashingGenotypes}}
+         {{this}}<br/>
       {{/each}}
    {{/if}}
 </div>

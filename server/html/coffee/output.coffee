@@ -52,7 +52,7 @@ colorify = (flyMatrix) ->
             $(this).attr({"id":"fly_"+(i-1)+"_"+(j-1)})
             $(this).find("div").css("background-color":fly.pColor).find("div").css("background-color":fly.gColor)
             $(this).mouseenter ->
-               $("#punHoverMsg").html flyPanelTpl(fly)
+               fly.clashingGenotypes=[]
                for row,k in flyMatrix
                   for cell,l in row
                      if cell.pLegendIdx==fly.pLegendIdx
@@ -60,7 +60,12 @@ colorify = (flyMatrix) ->
                            $("#fly_"+k+"_"+l).find("div").addClass("punCellHoveredEqual")
                         else
                            $("#fly_"+k+"_"+l).find("div").addClass("punCellHoveredUnequal")
+                           if cell.genotype not in fly.clashingGenotypes
+                              fly.clashingGenotypes.push(cell.genotype)
+               $("#punHoverMsg").html flyPanelTpl(fly)
+
             $(this).mouseleave ->
+               $("#punHoverMsg").html("")
                $(".pDiv").removeClass("punCellHoveredEqual")
                $(".pDiv").removeClass("punCellHoveredUnequal")
             $(this).click (event)->
