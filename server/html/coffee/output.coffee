@@ -48,8 +48,20 @@ colorify = (flyMatrix) ->
             $(this).data({"i":i,"j":j,"fly":fly})
             $(this).attr({"id":"fly_"+(i-1)+"_"+(j-1)})
             $(this).find("div").css("background-color":fly.pColor).find("div").css("background-color":fly.gColor)
-            $(this).hover ->
+            $(this).mouseenter ->
+               for row,k in flyMatrix
+                  for cell,l in row
+                     #alert(JSON.stringify(fly))
+                     if cell.pLegendIdx==fly.pLegendIdx
+                        #alert([k,l])
+                        $("#fly_"+k+"_"+l).find("div").css("border-color":fly.pColor)
+               #alert("hover")
+               #$(this).find("div").css("border-color":fly.pColor)
                $("#punHoverMsg").html flyPanelTpl(fly)
+            $(this).mouseleave ->
+               #alert($(".punCell").toArray().length)
+               $(".pDiv").css("border-color":"white")
+
 
 window.showPunnett = (pun) ->
    hdrTpl = Handlebars.compile($("#punHdrTpl").html())

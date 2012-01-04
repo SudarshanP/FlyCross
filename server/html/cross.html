@@ -57,10 +57,10 @@ handler = function(data) {
 
 
 <script id="punHdrTpl" type="text/x-handlebars-template">
-      <tr><td>{{#each fly2Axis}}</td><td style="padding-bottom:5px;height:100px; vertical-align:bottom;"><div class ="vertical">{{this}}</div>{{/each}}</td></tr>
+      <tr><td>{{#each fly2Axis}}</td><td style="padding-bottom:5px;height:100px; vertical-align:bottom; text-align:center"><div class ="vertical">{{this}}</div>{{/each}}</td></tr>
 </script>
 <script id="punRowTpl" type="text/x-handlebars-template">
-      <tr class="punRow" ><td>{{gamete}}{{#each flies}}</td><td align="center" class="punCell"><div class="pDiv"><div class="gDiv"></div></div>{{/each}}</td></tr>
+      <tr class="punRow" ><td>{{gamete}}{{#each flies}}</td><td class="punCell"><div class="pDiv"><div class="gDiv"></div></div>{{/each}}</td></tr>
 </script>
 <script id="punTpl" type="text/x-handlebars-template">
     <table class ="punTbl" id='punTable'>
@@ -157,14 +157,14 @@ Dummy test cross: <input type='text' id='crossNo' value='cross2'><input type='su
 </div>
 <!--div id='response'></div-->
 <div id="output">
-<input type='submit' value='Back' onClick='inputMode();return false'  class="btn primary"/>
-<div class="row">
-  <div id="punSqr" class="span8"></div>
-  <div id="punHoverMsg" class="span8"></div>
-</div>
-<!--div class="row">
-   <div  class="span8" id="pLegend"></div>   
-</div-->
+   <input type='submit' value='Back' onClick='inputMode();return false'  class="btn primary"/>
+   <div class="row">
+      <div id="punSqr" class="span8"></div>
+      <div id="punHoverMsg" class="span8"></div>
+   </div>
+   <!--div class="row">
+      <div  class="span8" id="pLegend"></div>   
+   </div-->
 </div>
 
 </body>
