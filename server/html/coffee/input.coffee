@@ -128,16 +128,6 @@ window.parseFly = (f,gender=null) ->
    return parseErr("Wrong Gender, Check Y",f) if gender? && sex(ret)!=gender
    return {"fly":ret} 
 
-#dad = parseFly("A,B,(((C)})/D,F;G,H/I,J;+/+","M")
-#mom = parseFly("P,B,C/D,E,F;G,H/I,J;+/+","F")
-#kid = parseFly("A,B,C/D,E,F;G,H/I,Q;+/+")
-
-#for fly in [dad,mom,kid]
-#   if fly.error?
-#      alert fly.error+"\n"+fly.frag
-#   else
-#      alert JSON.stringify(fly)
-
 window.validateFly = (id,sex) ->
    f = parseFly($("#"+id).val(),sex)
    if f.error
@@ -227,4 +217,3 @@ geneHtml = (fly) ->
    htmlGenotype="<div><table><tr>"+htmlChrPairs.join(semicolon)+"</tr></table></div>"
    return htmlGenotype
    
-
