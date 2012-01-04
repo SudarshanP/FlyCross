@@ -135,7 +135,7 @@ window.validateFly = (id,sex) ->
       $("#"+id+"Box").addClass("error")
       #$("#"+id+"Msg").html("Error")
       $('#o'+id).html(f.error)
-      window.punnettReq[id] = f.error
+      window.punnettReq[id] = {"error":f.error}
    else
       $("#"+id+"Box").removeClass("error")
       $("#"+id+"Box").addClass("success")
@@ -168,7 +168,6 @@ window.parseMarkers = ->
    window.punnettReq["markers"] = genes
 
 window.parseConstraints = ->
-   #alert("makePunnet")
    constraints=parseConstraintList($('#constraints').val())
    if constraints.error
       $("#constraintsBox").removeClass("success")
@@ -182,7 +181,6 @@ window.parseConstraints = ->
 
 window.loadDummy = -> 
    data = window[$("#crossNo").val()]
-   #alert JSON.stringify()
    $('#father').val(data["father"])
    $('#mother').val(data["mother"])
    $('#child').val(data["child"])
@@ -202,7 +200,6 @@ window.makePunnettRequest = ->
       if val.error
          alert ("First clear all the highlighted errors!")
          return
-   #alert JSON.stringify(window.punnettReq)
    server.post("/checkCross",JSON.stringify(window.punnettReq),handler)
 
 geneHtml = (fly) ->
