@@ -36,6 +36,9 @@ showLegend = (flyMatrix) ->
 
 colorify = (flyMatrix) ->
    flyPanelTpl = Handlebars.compile($("#flyPanelTpl").html())
+   $("body").click ->
+      $(".pDiv").removeClass("punCellClickedEqual")
+      $(".pDiv").removeClass("punCellClickedUnequal")
    $("#punTable").find("tr").each (i) -> 
       $(this).find("td").each (j) -> 
          if i && j
@@ -49,18 +52,28 @@ colorify = (flyMatrix) ->
             $(this).attr({"id":"fly_"+(i-1)+"_"+(j-1)})
             $(this).find("div").css("background-color":fly.pColor).find("div").css("background-color":fly.gColor)
             $(this).mouseenter ->
+               $("#punHoverMsg").html flyPanelTpl(fly)
                for row,k in flyMatrix
                   for cell,l in row
-                     #alert(JSON.stringify(fly))
                      if cell.pLegendIdx==fly.pLegendIdx
-                        #alert([k,l])
-                        $("#fly_"+k+"_"+l).find("div").css("border-color":fly.pColor)
-               #alert("hover")
-               #$(this).find("div").css("border-color":fly.pColor)
-               $("#punHoverMsg").html flyPanelTpl(fly)
+                        if cell.gLegendIdx==fly.gLegendIdx
+                           $("#fly_"+k+"_"+l).find("div").addClass("punCellHoveredEqual")
+                        else
+                           $("#fly_"+k+"_"+l).find("div").addClass("punCellHoveredUnequal")
             $(this).mouseleave ->
-               #alert($(".punCell").toArray().length)
-               $(".pDiv").css("border-color":"white")
+               $(".pDiv").removeClass("punCellHoveredEqual")
+               $(".pDiv").removeClass("punCellHoveredUnequal")
+            $(this).click (event)->
+               event.stopPropagation()
+               $(".pDiv").removeClass("punCellClickedEqual")
+               $(".pDiv").removeClass("punCellClickedUnequal")
+               for row,k in flyMatrix
+                  for cell,l in row
+                     if cell.pLegendIdx==fly.pLegendIdx
+                        if cell.gLegendIdx==fly.gLegendIdx
+                           $("#fly_"+k+"_"+l).find("div").addClass("punCellClickedEqual")
+                        else
+                           $("#fly_"+k+"_"+l).find("div").addClass("punCellClickedUnequal")
 
 
 window.showPunnett = (pun) ->

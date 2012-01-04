@@ -71,3 +71,15 @@ hr {
    padding-left: 3px;
    color:white
 }
+.punCellHoveredUnequal {
+   border-color:#ff8888
+}
+.punCellHoveredEqual {
+   border-color:#8888ff
+}
+.punCellClickedEqual {
+   border-color:#88ff88
+}
+.punCellClickedUnequal {
+   border-color:#88ffff
+}
