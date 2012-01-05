@@ -93,3 +93,9 @@ hr {
 .punCellClickedUnequal {
    border-color:#ff6666;
 }
+.rightPanel {
+   border-style:solid;
+   border-color:#8888aa;
+   padding:5px;
+}
+
