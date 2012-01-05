@@ -37,15 +37,14 @@ handler = function(data) {
 <script id="flyPanelTpl" type="text/x-handlebars-template">
 <div style="border-style:solid; border-color:#8888aa; padding:5px;">
    {{#if lethal}}
-      <span class="label important">Lethal</span>
+      <span class="label important">Lethal</span><br/>
    {{/if}}
    {{#if sterile}}
-      <span class="label warning">Sterile</span>
+      <span class="label warning">Sterile</span><br/>
    {{/if}}
    {{#if markerInterference}}
-      <span class="label notice">Interfering markers</span>
+      <span class="label notice">Interfering markers</span><br/>
    {{/if}}
-   <br/>
    <span style="background-color:{{pColor}}">&nbsp;&nbsp;&nbsp;&nbsp;</span>Phenotype: {{phenotype}}<br/>
    <span style="background-color:{{gColor}}">&nbsp;&nbsp;&nbsp;&nbsp;</span>Genotype: {{genotype}}<br/>
    {{#if warnings}}
@@ -62,12 +61,17 @@ handler = function(data) {
 </div>
 </script>
 
+<script id="gametePanelTpl" type="text/x-handlebars-template">
+   <div style="border-style:solid; border-color:#8888aa; padding:5px;">
+      <B>Gamete : {{this}}</B>
+   </div>
+</script>
 
 <script id="punHdrTpl" type="text/x-handlebars-template">
-      <tr><td>{{#each fly2Axis}}</td><td style="padding-bottom:5px;height:100px; vertical-align:bottom; text-align:center"><div class ="vertical">{{this}}</div>{{/each}}</td></tr>
+      <tr><td>{{#each fly2Axis}}</td><td class="punHdrCell punTitleCell" title={{this}}><div class ="vertical">{{this}}</div>{{/each}}</td></tr>
 </script>
 <script id="punRowTpl" type="text/x-handlebars-template">
-      <tr class="punRow" ><td>{{gamete}}{{#each flies}}</td><td class="punCell"><div class="pDiv"><div class="gDiv"></div></div>{{/each}}</td></tr>
+      <tr class="punRow" ><td class="punTitleCell" title={{gamete}}>{{gamete}}{{#each flies}}</td><td class="punCell"><div class="pDiv"><div class="gDiv"></div></div>{{/each}}</td></tr>
 </script>
 <script id="punTpl" type="text/x-handlebars-template">
     <table class ="punTbl" id='punTable'>

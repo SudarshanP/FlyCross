@@ -10,6 +10,15 @@ hr {
    padding:0px;
    margin:1px;
 }
+.punHdrCell {
+   padding-bottom:5px;
+   height:100px;
+   vertical-align:bottom;
+   text-align:center;
+}
+.punTitleCell {
+   font-weight:bold;
+}
 .vertical {
    text-align: center;
    vertical-align: middle;

@@ -94,5 +94,9 @@ window.showPunnett = (pun) ->
    showLegend(pun["punnetSquare"])
    colorify(pun["punnetSquare"])  
    $("#punSqr").scrollTop($("#punSqr").position().top)
+   $(".punTitleCell").mouseenter ->
+      gametePanelTpl = Handlebars.compile($("#gametePanelTpl").html())
+      panelHtml=gametePanelTpl($(this).attr("title"))
+      $("#punHoverMsg").html(panelHtml)
    outputMode()
 
