@@ -98,5 +98,7 @@ window.showPunnett = (pun) ->
       gametePanelTpl = Handlebars.compile($("#gametePanelTpl").html())
       panelHtml=gametePanelTpl($(this).attr("gamete"))
       $("#punHoverMsg").html(panelHtml)
+   $(".punTitleCell").mouseleave ->
+      $("#punHoverMsg").html("")
    outputMode()
 
