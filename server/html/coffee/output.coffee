@@ -35,6 +35,7 @@ showLegend = (flyMatrix) ->
    $("#gLegend").html makeLegend("Genotypes",gLegends,gColors)
 
 colorify = (flyMatrix) ->
+   window.stickyFlyPanel=""
    flyPanelTpl = Handlebars.compile($("#flyPanelTpl").html())
    $("body").click ->
       $(".pDiv").removeClass("punCellClickedEqual")
@@ -65,11 +66,12 @@ colorify = (flyMatrix) ->
                $("#punHoverMsg").html flyPanelTpl(fly)
 
             $(this).mouseleave ->
-               $("#punHoverMsg").html("")
+               $("#punHoverMsg").html(window.stickyFlyPanel)
                $(".pDiv").removeClass("punCellHoveredEqual")
                $(".pDiv").removeClass("punCellHoveredUnequal")
             $(this).click (event)->
                event.stopPropagation()
+               window.stickyFlyPanel = flyPanelTpl(fly)
                $(".pDiv").removeClass("punCellClickedEqual")
                $(".pDiv").removeClass("punCellClickedUnequal")
                for row,k in flyMatrix
@@ -99,6 +101,6 @@ window.showPunnett = (pun) ->
       panelHtml=gametePanelTpl($(this).attr("gamete"))
       $("#punHoverMsg").html(panelHtml)
    $(".punTitleCell").mouseleave ->
-      $("#punHoverMsg").html("")
+      $("#punHoverMsg").html(window.stickyFlyPanel)
    outputMode()
 
