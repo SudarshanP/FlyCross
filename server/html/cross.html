@@ -97,7 +97,7 @@ $ ->
    inputMode()
    $("#father").blur -> validateFly("father","M")
    $("#mother").blur -> validateFly("mother","F")
-   $("#child").blur -> validateFly("child")
+   $("#child").blur -> validateChild()
    $("#balancers").blur -> parseBalancers()
    $("#markers").blur -> parseMarkers()
    $("#constraints").blur -> parseConstraints()

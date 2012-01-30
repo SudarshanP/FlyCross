@@ -32,7 +32,11 @@ class CheckCrossReply(webapp.RequestHandler):
 		updateLists(constraintsList=constraints,balancersList=balancers,markersList=markers)
 		father=Fly(jsonDataFromCS['father'])
 		mother=Fly(jsonDataFromCS['mother'])
-		child=Fly(jsonDataFromCS['child'])
+		childStr=jsonDataFromCS['child']
+		if childStr=="":
+			child=None
+		else:
+			child=Fly(childStr)
 
 		punnettSqr=json.dumps(punnettDict(father,mother))
 		self.response.out.write(punnettSqr)

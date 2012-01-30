@@ -86,6 +86,8 @@ window.parseFly = (f,gender=null) ->
    state = 0
    openBrackets = 0
    frag = ""
+   if f.length ==0
+      return parseErr("No Fly!",frag)
    for ch in f
       frag += ch
       switch state
@@ -142,6 +144,28 @@ window.validateFly = (id,sex) ->
       $("#"+id+"Msg").html("")
       $('#o'+id).html(geneHtml(f.fly))
       window.punnettReq[id] = f.fly
+
+window.validateChild = () ->
+   f = parseFly($("#child").val())
+   if f.error
+      if f.error=="No Fly!"
+         $("#childBox").removeClass("error")
+         $("#childBox").addClass("success")
+         $("#childMsg").html("")
+         $("#ochild").html(geneHtml(""))
+         window.punnettReq["child"]=""
+      else
+         $("#childBox").removeClass("success")
+         $("#childBox").addClass("error")
+         $("#childMsg").html(f.error)
+         $("#ochild").html("")
+         window.punnettReq["child"] = {"error":f.error}
+   else
+      $("#childBox").removeClass("error")
+      $("#childBox").addClass("success")
+      $("#childMsg").html("")
+      $("#ochild").html(geneHtml(f.fly))
+      window.punnettReq["child"] = f.fly
       
 window.parseBalancers = ->
    genes=parseCommaSepGenes($('#balancers').val())
@@ -191,7 +215,7 @@ window.loadDummy = ->
 window.makePunnettRequest = ->  
    validateFly("father","M");
    validateFly("mother","F");
-   validateFly("child");
+   validateChild();
    parseBalancers()
    parseMarkers()
    parseConstraints()
